@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+
+        <title>Sigati </title>
+
+        <h:outputStylesheet name="bootstrap/css/bootstrap.min.css" />
+
+        <h:outputStylesheet name="css/template.css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="formGrowl">
+            <div style="z-index: 6000;">
+                <p:growl id="growl" showDetail="true"  sticky="true" />
+            </div>
+            <ui:include src="../secure/sessionTimeOut.xhtml" />
+
+            <p:ajaxStatus style=" z-index: 9999999999999;position: absolute; bottom: 3px; right: 3px;">
+                <f:facet name="start">
+                    <p:graphicImage  library="images" name="fanreel-loader2.gif" />
+                </f:facet>
+
+                <f:facet name="complete">
+                </f:facet>
+            </p:ajaxStatus>
+
+        </h:form>
+
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Sigati</a>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <h:form>
+                        <p:commandLink value="Configuracion" action="#{menuController.logout}" />
+                        <p:commandLink value="Cerrar sesión" action="#{menuController.logout}" />
+                    </h:form>
+                </li>
+            </ul>
+        </nav>
+
+
+        <div class="container-fluid" >
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky" style="padding-right: 0px !important;">
+
+                        <!--Menu principal-->
+                        <h:form>
+                            <p:menu>
+                                <p:submenu label="Actividades">
+                                    <p:menuitem value="Proyectos" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Entregabbles" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas" action="#{estadoBean.init}" icon="pi pi-refresh"/>
+                                </p:submenu>
+                                <p:submenu label="Gestion">
+                                    <p:menuitem value="Personas" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Usuarios" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Roles" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Permisos" ajax="false" icon="pi pi-refresh"/>                                    
+                                </p:submenu>
+                                <p:submenu label="Parametrizacion">
+                                    <p:menuitem value="Ambiente" action="ambiente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Area" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Complejidad" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Estados" action="estado" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Nacionalidades" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Prioridades" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Segmentos" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Servicios" ajax="false" icon="pi pi-refresh"/>
+                                </p:submenu>
+                                <p:submenu label="Informes">
+                                    <p:menuitem value="Consolidados " url="http://www.primefaces.org" icon="pi pi-refresh"/>
+                                    <p:menuitem value=" Generales" icon="pi pi-refresh"/>
+                                </p:submenu>
+                            </p:menu>
+                        </h:form>
+                    </div>
+                </nav>
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <h1 class="h2"><ui:insert name="tituloPagina" /></h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group mr-2">
+                                <button class="btn btn-sm btn-outline-secondary">Compartir</button>
+                                <button class="btn btn-sm btn-outline-secondary">Exportar</button>
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                                <span data-feather="calendar"></span>
+                                Semanal
+                            </button>
+                        </div>
+                    </div>
+                    <ui:insert name="content">
+
+                    </ui:insert>
+                </main>
+            </div>
+            <div style="float: right;">
+                <footer>
+                    <div style="text-decoration: #4e555b" >
+
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <h:outputScript name="js/popper.min.js" />
+        <h:outputScript  name="bootstrap/js/bootstrap.min.js" />
+        <h:outputScript name="js/feather.min.js"/>
+    </h:body>
+</html>
