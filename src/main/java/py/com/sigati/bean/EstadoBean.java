@@ -35,7 +35,7 @@ public class EstadoBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         estadoSeleccionado = new Estado();
-        //listaEstado = estadoEJB.findAll();
+        listaEstado = estadoEJB.findAll();
     }
 
     @Override
@@ -84,9 +84,9 @@ public class EstadoBean extends AbstractBean implements Serializable {
     @Override
     public void eliminar() {
         try {
-      //      estadoEJB.edit(estadoSeleccionado);
+            estadoEJB.remove(estadoSeleccionado);
             infoMessage("Eliminado correctamente");
-        //    listaEstado = estadoEJB.findAll();
+           listaEstado = estadoEJB.findAll();
         } catch (Exception e) {
             errorMessage("No se pudo eliminar el registro");
         }
