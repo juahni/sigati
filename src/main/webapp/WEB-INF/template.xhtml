@@ -102,10 +102,10 @@
                             
                             <p:menu>
                                 <p:submenu label="Actividades">
-                                    <p:menuitem value="Proyectos" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Incidentes" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Entregabbles" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Tareas" action="#{estadoBean.init}" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Proyectos" action="proyectos" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" action="incidente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Entregables" action="iniciativaEntregable" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas" action="tarea" icon="pi pi-refresh"/>
                                 </p:submenu>
                                 <p:submenu label="Gestion">
                                     <p:menuitem value="Personas" ajax="false" icon="pi pi-refresh"/>
@@ -115,13 +115,13 @@
                                 </p:submenu>
                                 <p:submenu label="Parametrizacion">
                                     <p:menuitem value="Ambiente" action="ambiente" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Area" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Complejidad" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Area" action="area" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Complejidad" action="complejidad" icon="pi pi-refresh"/>
                                     <p:menuitem value="Estados" action="estado" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Nacionalidades" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Prioridades" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Segmentos" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Servicios" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Nacionalidades" action="nacionalidad" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Prioridades" action="prioridad" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Segmentos" action="segmento" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Servicios" action="servicio" icon="pi pi-refresh"/>
                                 </p:submenu>
                                 <p:submenu label="Informes">
                                     <p:menuitem value="Consolidados " url="http://www.primefaces.org" icon="pi pi-refresh"/>
