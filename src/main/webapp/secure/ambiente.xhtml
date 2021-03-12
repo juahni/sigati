@@ -13,33 +13,27 @@
             </ui:define>
             <ui:define name="content">
                 <h:form id="formGeneric">
-                    <p:dataTable id="dtGeneric" value="#{ambienteBean.lista}" var="row" rows="10" rowKey="#{row.idAmbiente}"
+                    <p:dataTable id="dtGeneric" value="#{ambienteBean.listaAmbiente}" var="row" rows="10" rowKey="#{row.id}"
                                  paginator="true" paginatorPosition="bottom" >
 
                         <p:column headerText="Nombre">
-                            <p:outputLabel value="#{row.nombre}" />
-                        </p:column>
-
-                        <p:column headerText="Descripción">
                             <p:outputLabel value="#{row.descripcion}" />
                         </p:column>
 
-                        <p:column headerText="Activo">
-                            <p:outputLabel value="#{row.activo eq true ? 'Si' : 'No'}" />
-                        </p:column>
+                      
 
 
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
                                                  update="formDlgGeneric" action="#{ambienteBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{row}" target="#{ambienteBean.selected}" />
+                                    <f:setPropertyActionListener value="#{row}" target="#{ambienteBean.ambienteSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{ambienteBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar"
                                                  action="#{ambienteBean.eliminar}" update="formGeneric:dtGeneric formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{row}" target="#{ambienteBean.selected}" />
+                                    <f:setPropertyActionListener value="#{row}" target="#{ambienteBean.ambienteSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
                             </center>
@@ -66,32 +60,12 @@
                     <h:form id="formDlgGeneric">
                         <div class="bd-example">
                             <div class="form-group row">
-                                <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
-                                <div class="col-sm-10">
-                                    <p:inputText id="codigo" styleClass="form-control" required="false"
-                                                 value="#{ambienteBean.selected.nombre}"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
                                 <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
-                                                 value="#{ambienteBean.selected.descripcion}"/>
+                                                 value="#{ambienteBean.ambienteSeleccionado.descripcion}"/>
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">Activo</label>
-                                <div class="col-sm-10">
-                                    <p:selectBooleanCheckbox required="false"
-                                                             value="#{ambienteBean.selected.activo}"/>
-                                </div>
-                            </div>
-
-
-
-
                         </div>
 
                         <center>
@@ -120,5 +94,3 @@
         </ui:composition>
     </h:body>
 </html>
-
-
