@@ -5,28 +5,24 @@
       xmlns:o="http://omnifaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
-  
+
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Administración de Tareas
+                Administración de Entregables
             </ui:define>    
             <ui:define name="content">
-                <h:form id="fromTareas">
-                    <p:dataTable id="dtTareas" value="#{tareaBean.listaTarea}" var="tar" rows="10" rowKey="#{tar.id}"
+                <h:form id="fromEntregables">
+                    <p:dataTable id="dtEntregables" value="#{entregableBean.listaEntregable}" var="ent" rows="10" rowKey="#{ent.id}"
                                  paginator="true" paginatorPosition="bottom">
 
                         <p:column headerText="Nombre">
-                            <p:outputLabel value="#{tar.nombre}" />
+                            <p:outputLabel value="#{ent.nombre}" />
                         </p:column>
-
-                        <p:column headerText="Descripción">                           
-                            <p:outputLabel value="#{tar.descripcion}" />
-                        </p:column>
-
+                  
                         <p:column headerText="Fecha Inicio">
                             <center>
-                                <p:outputLabel value="#{pro.fechaInicio}" >
+                                <p:outputLabel value="#{ent.fechaInicio}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
@@ -34,54 +30,61 @@
 
                         <p:column headerText="Fec. Ini Estimada">
                             <center>
-                                <p:outputLabel value="#{tar.fechaInicioEstimado}" >
+                                <p:outputLabel value="#{ent.fechaInicioEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
                         </p:column>
-
+                        
                         <p:column headerText="Fec. Fin Estimada">
                             <center>
-                                <p:outputLabel value="#{tar.fechaFinEstimado}" >
+                                <p:outputLabel value="#{ent.fechaFinEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Ambiente">
+                        <p:column headerText="Prioridad">
                             <center>
-                                <p:outputLabel value="#{tar.idAmbiente.descripcion}"/>
+                                <p:outputLabel value="#{ent.idPrioridad.descripcion}"/>
                             </center>
                         </p:column>
 
                         <p:column headerText="Complejidad">
                             <center>
-                                <p:outputLabel value="#{tar.idComplejidad.descripcion}" />
+                                <p:outputLabel value="#{ent.idComplejidad.descripcion}" />
                             </center>
                         </p:column>
 
-                        <p:column headerText="Incidente">
+                        <p:column headerText="Estado">
                             <center>
-                                <p:outputLabel value="#{tar.idIncidente.descripcion}" />
+                                <p:outputLabel value="#{ent.idEstado.descripcion}" />
                             </center>
                         </p:column>    
                         
-                        <p:column headerText="Entregable">
+                        <p:column headerText="Servicio">
                             <center>
-                                <p:outputLabel value="#{tar.idEntregable.descripcion}" />
+                                <p:outputLabel value="#{ent.idServicio.descripcion}" />
                             </center>
                         </p:column>  
+                        
+                         <p:column headerText="Proyecto">
+                            <center>
+                                <p:outputLabel value="#{ent.idProyecto.nombre}" />
+                            </center>
+                        </p:column> 
+                        
                         <p:column headerText="Acción">
                             <center>
-                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbTareas').show()"
-                                                 update="formDlgTareas" action="#{tareaBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{tareaBean.tareaSeleccionado}" />
-                                    <f:setPropertyActionListener value="#{true}" target="#{tareaBean.editando}" />
+                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbEntregables').show()"
+                                                 update="formDlgEntregables" action="#{entregableBean.antesActualizar}">
+                                    <f:setPropertyActionListener value="#{ent}" target="#{entregableBean.entregableSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{entregableBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                 action="#{tareaBean.eliminar}" update="fromTareas:dtTareas formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{tareaBean.tareaSeleccionado}" />
+                                                 action="#{entregableBean.eliminar}" update="fromEntregables:dtEntregables formGrowl:growl">
+                                    <f:setPropertyActionListener value="#{ent}" target="#{entregableBean.entregableSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
                             </center>
@@ -90,11 +93,11 @@
                     </p:dataTable> 
 
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Tarea" ajax="true" icon="fa fa-plus-circle"  
-                                         oncomplete="PF('wbTareas').show();"
-                                         actionListener="#{tareaBean.agregar()}"
-                                         update="formDlgTareas">
-                            <f:setPropertyActionListener value="#{false}" target="#{tareaBean.editando}" />
+                        <p:commandButton value="Agregar Entregable" ajax="true" icon="fa fa-plus-circle"  
+                                         oncomplete="PF('wbEntregables').show();"
+                                         actionListener="#{entregableBean.agregar()}"
+                                         update="formDlgEntregables">
+                            <f:setPropertyActionListener value="#{false}" target="#{entregableBean.editando}" />
                         </p:commandButton>
                     </div>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -103,15 +106,15 @@
                     </p:confirmDialog>  
                 </h:form>
 
-                <p:dialog id="dlgTareas" widgetVar="wbTareas" closeOnEscape="true" closable="true" header="Tarea"
-                          width="850" height="650" modal="true"> 
-                    <h:form id="formDlgTareas">
+                <p:dialog id="dlgEntregables" widgetVar="wbEntregables" closeOnEscape="true" closable="true" header="Entregable"
+                          width="950" height="650" modal="true"> 
+                    <h:form id="formDlgEntregables">
                         <div class="bd-example">
                             <div class="form-group row">
                                 <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="codigo" styleClass="form-control" required="false"
-                                                 value="#{tareaBean.tareaSeleccionado.nombre}"/>
+                                                 value="#{entregableBean.entregableSeleccionado.nombre}"/>
                                 </div>
                             </div>
 
@@ -119,7 +122,7 @@
                                 <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
-                                                 value="#{tareaBean.tareaSeleccionado.descripcion}"/>
+                                                 value="#{entregableBean.entregableSeleccionado.descripcion}"/>
                                 </div>
                             </div>
 
@@ -127,93 +130,113 @@
                                 <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha Inicio</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaInicio"  required="false"
-                                                value="#{tareaBean.tareaSeleccionado.fechaInicio}"/>
+                                                value="#{entregableBean.entregableSeleccionado.fechaInicio}"/>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Inicio Estimada</label>
+                                <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Ini. Estimada</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaFinEstimada" required="false" style="widows: 300px !important;"
-                                                value="#{tareaBean.tareaSeleccionado.fechaInicioEstimado}"/>
+                                                value="#{entregableBean.entregableSeleccionado.fechaInicioEstimado}"/>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
+                                <label for="fechaFinEst" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFiEst"  required="false"
+                                                value="#{entregableBean.entregableSeleccionado.fechaFinEstimado}"/>
+                                </div>
+                            </div>  
+                                  
+                             <div class="form-group row">
+                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaFin"  required="false"
-                                                value="#{tareaBean.tareaSeleccionado.fechaFinEstimado}"/>
+                                                value="#{entregableBean.entregableSeleccionado.fechaFin}"/>
                                 </div>
                             </div>  
-
+                            
                             <div class="form-group row">
-                                <label for="selAmbiente" class="col-sm-2 col-form-label">Ambiente</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selAmbiente" value="#{tareaBean.tareaSeleccionado.idAmbiente}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-
-                                        <f:selectItems value="#{ambienteBean.listaAmbiente}" var="ambiente" itemLabel="#{ambiente.descripcion}" itemValue="#{ambiente}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>  
-
-                             <div class="form-group row">
                                 <label for="selComplejidad" class="col-sm-2 col-form-label">Complejidad</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selComplejidad" value="#{tareaBean.tareaSeleccionado.idComplejidad}" 
+                                    <p:selectOneMenu id="selComplejidad" value="#{entregableBean.entregableSeleccionado.idComplejidad}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
 
                                         <f:selectItems value="#{complejidadBean.listaComplejidad}" var="complejidad" itemLabel="#{complejidad.descripcion}" itemValue="#{complejidad}" />
                                     </p:selectOneMenu>
                                 </div>
-                            </div>
+                            </div> 
 
                             <div class="form-group row">
-                                <label for="selIncidente" class="col-sm-2 col-form-label">Incidente</label>
+                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selIncidente" value="#{tareaBean.tareaSeleccionado.idIncidente}" 
+                                    <p:selectOneMenu id="selEstado" value="#{entregableBean.entregableSeleccionado.idEstado}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
 
-                                        <f:selectItems value="#{incidenteBean.listaIncidente}" var="incidente" itemLabel="#{incidente.descripcion}" itemValue="#{incidente}" />
+                                        <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div> 
+
+
+                            <div class="form-group row">
+                                <label for="selPrioridad" class="col-sm-2 col-form-label">Prioridad</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selPrioridad" value="#{entregableBean.entregableSeleccionado.idPrioridad}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+
+                                        <f:selectItems value="#{prioridadBean.listaPrioridad}" var="prioridad" itemLabel="#{prioridad.descripcion}" itemValue="#{prioridad}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+  
+                            <div class="form-group row">
+                                <label for="selServicio" class="col-sm-2 col-form-label">Servicio</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selServicio" value="#{entregableBean.entregableSeleccionado.idServicio}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+
+                                        <f:selectItems value="#{servicioBean.listaServicio}" var="servicio" itemLabel="#{servicio.descripcion}" itemValue="#{servicio}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
                             
                             <div class="form-group row">
-                                <label for="selEntregable" class="col-sm-2 col-form-label">Entregable</label>
+                                <label for="selProyecto" class="col-sm-2 col-form-label">Proyecto</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selEntregable" value="#{tareaBean.tareaSeleccionado.idEntregable}" 
+                                    <p:selectOneMenu id="selProyecto" value="#{entregableBean.entregableSeleccionado.idProyecto}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
 
-                                        <f:selectItems value="#{entregableBean.listaEntregable}" var="entregable" itemLabel="#{entregable.descripcion}" itemValue="#{entregable}" />
+                                        <f:selectItems value="#{proyectoBean.listaProyecto}" var="proyecto" itemLabel="#{proyecto.descripcion}" itemValue="#{proyecto}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-  
                         </div>
 
                         <center>
                             <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
-                                              action="#{tareaBean.guardar}"
-                                              update="fromTareas:dtTareas formGrowl:growl"
+                                              action="#{entregableBean.guardar}"
+                                              update="fromEntregables:dtEntregables formGrowl:growl"
                                               process="@this @form"
-                                              rendered="#{!tareaBean.editando}"
+                                              rendered="#{!entregableBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
-                                              action="#{tareaBean.actualizar}"
-                                              update="fromTareas:dtTareas formGrowl:growl"
+                                              action="#{entregableBean.actualizar}"
+                                              update="fromEntregables:dtEntregables formGrowl:growl"
                                               process="@this @form"
-                                              rendered="#{tareaBean.editando}"
+                                              rendered="#{entregableBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
-                                              onclick="PF('wbTareas').hide()"></p:commandButton>
+                                              onclick="PF('wbEntregables').hide()"></p:commandButton>
 
                         </center>
                     </h:form>

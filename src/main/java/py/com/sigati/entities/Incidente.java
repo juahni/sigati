@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,19 +36,17 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Incidente.findById", query = "SELECT i FROM Incidente i WHERE i.id = :id")
     , @NamedQuery(name = "Incidente.findByNombre", query = "SELECT i FROM Incidente i WHERE i.nombre = :nombre")
     , @NamedQuery(name = "Incidente.findByDescripcion", query = "SELECT i FROM Incidente i WHERE i.descripcion = :descripcion")
-    , @NamedQuery(name = "Incidente.findByComplejidad", query = "SELECT i FROM Incidente i WHERE i.complejidad = :complejidad")
     , @NamedQuery(name = "Incidente.findByFechaInicio", query = "SELECT i FROM Incidente i WHERE i.fechaInicio = :fechaInicio")
     , @NamedQuery(name = "Incidente.findByFechaInicioEstimado", query = "SELECT i FROM Incidente i WHERE i.fechaInicioEstimado = :fechaInicioEstimado")
     , @NamedQuery(name = "Incidente.findByFechaFin", query = "SELECT i FROM Incidente i WHERE i.fechaFin = :fechaFin")
-    , @NamedQuery(name = "Incidente.findByFechaFinEstimado", query = "SELECT i FROM Incidente i WHERE i.fechaFinEstimado = :fechaFinEstimado")
-    , @NamedQuery(name = "Incidente.findByPrioridad", query = "SELECT i FROM Incidente i WHERE i.prioridad = :prioridad")
-    , @NamedQuery(name = "Incidente.findByEstado", query = "SELECT i FROM Incidente i WHERE i.estado = :estado")})
+    , @NamedQuery(name = "Incidente.findByFechaFinEstimado", query = "SELECT i FROM Incidente i WHERE i.fechaFinEstimado = :fechaFinEstimado")})
 public class Incidente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -55,9 +55,9 @@ public class Incidente implements Serializable {
     @Size(max = 200)
     @Column(name = "descripcion", length = 200)
     private String descripcion;
-    @Size(max = 50)
-    @Column(name = "complejidad", length = 50)
-    private String complejidad;
+    @JoinColumn(name = "id_complejidad", referencedColumnName = "id")
+    @ManyToOne
+    /*private Complejidad idComplejidad;*/
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha_inicio", nullable = false)
@@ -69,7 +69,7 @@ public class Incidente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicioEstimado;
     @Basic(optional = false)
-    @NotNull
+    /*@NotNull*/
     @Column(name = "fecha_fin", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
@@ -77,13 +77,7 @@ public class Incidente implements Serializable {
     @NotNull
     @Column(name = "fecha_fin_estimado", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date fechaFinEstimado;
-    @Size(max = 100)
-    @Column(name = "prioridad", length = 100)
-    private String prioridad;
-    @Size(max = 100)
-    @Column(name = "estado", length = 100)
-    private String estado;
+    private Date fechaFinEstimado;   
     @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne
     private Estado idEstado;
@@ -141,14 +135,6 @@ public class Incidente implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getComplejidad() {
-        return complejidad;
-    }
-
-    public void setComplejidad(String complejidad) {
-        this.complejidad = complejidad;
-    }
-
     public Date getFechaInicio() {
         return fechaInicio;
     }
@@ -179,22 +165,6 @@ public class Incidente implements Serializable {
 
     public void setFechaFinEstimado(Date fechaFinEstimado) {
         this.fechaFinEstimado = fechaFinEstimado;
-    }
-
-    public String getPrioridad() {
-        return prioridad;
-    }
-
-    public void setPrioridad(String prioridad) {
-        this.prioridad = prioridad;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public Estado getIdEstado() {

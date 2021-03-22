@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,8 +42,9 @@ public class Tarea implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -61,7 +64,7 @@ public class Tarea implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicioEstimado;
     @Basic(optional = false)
-    @NotNull
+     /*@NotNull*/
     @Column(name = "fecha_fin", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
