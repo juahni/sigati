@@ -41,56 +41,48 @@
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
                     <h:form>
-                        <p:menubar>
-                            <p:submenu label="File" icon="pi pi-fw pi-file">
-                                <p:submenu label="New" icon="pi pi-fw pi-plus">
-                                    <p:menuitem value="Bookmark" icon="pi pi-fw pi-bookmark" url="#"/>
-                                    <p:menuitem value="Video" icon="pi pi-fw pi-video" url="#"/>
+                        <p:menubar>                           
+                            <p:menuitem icon="pi pi-fw pi-user" value="#{loginBean.username}" />
+                            
+                            <p:submenu label="Notificaciones" icon="pi pi-external-link">
+                                <p:submenu label="Envios" icon="pi pi-external-link">
+                                    <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
+                                    <p:menuitem value="Correos" icon="pi pi-fw pi-file"/>
                                 </p:submenu>
-                                <p:menuitem value="Delete" icon="pi pi-fw pi-trash" url="#"/>
-
-                                <p:menuitem value="Export" icon="pi pi-fw pi-external-link" url="#"/>
-                            </p:submenu>
-
-                            <p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-                                <p:menuitem value="Left" url="#" icon="pi pi-fw pi-align-left"/>
-                                <p:menuitem value="Right" url="#" icon="pi pi-fw pi-align-right"/>
-                                <p:menuitem value="Center" url="#" icon="pi pi-fw pi-align-center"/>
-                                <p:menuitem value="Justify" url="#" icon="pi pi-fw pi-align-justify"/>
-                            </p:submenu>
-
-                            <p:submenu label="Users" icon="pi pi-fw pi-user">
-                                <p:menuitem value="New" icon="pi pi-fw pi-user-plus" url="#"/>
-                                <p:menuitem value="Delete" icon="pi pi-fw pi-user-minus" url="#"/>
-                                <p:submenu label="Search" icon="pi pi-fw pi-users">
-                                    <p:submenu label="Filter" icon="pi pi-fw pi-filter">
-                                        <p:menuitem value="Print" icon="pi pi-fw pi-print" url="#"/>
-                                    </p:submenu>
-                                    <p:menuitem value="List" icon="pi pi-fw pi-bars" url="#"/>
+                                <p:submenu label="Alarmas" icon="pi pi-fw pi-calendar">
+                                    <p:menuitem value="Configuracion" icon="pi pi-fw pi-file"/>
                                 </p:submenu>
                             </p:submenu>
 
-                            <p:submenu label="Events" icon="pi pi-fw pi-calendar">
-                                <p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-                                    <p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus"/>
-                                    <p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus"/>
-                                </p:submenu>
-                                <p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
-                                    <p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus"/>
+                            <p:submenu label="Configuracion" icon="pi pi-cog">
+                                <p:submenu label="Sesion" icon="pi pi-fw pi-cog">
+                                    <p:menuitem value="contrasenha" action="usuarios_pass" icon="pi pi-fw pi-cog"/>
                                 </p:submenu>
                             </p:submenu>
-
-                            <p:menuitem value="Configuracion" icon="pi pi-fw pi-pencil"/>
-                            <p:menuitem value="Quit" icon="pi pi-fw pi-power-off"/>
-                            <f:facet name="options">
-                                <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="rounded-button ui-button-info"/>
+                            
+                            <p:menuitem action="#{loginBean.logout}" value="Cerrar sesion" icon="pi pi-fw pi-power-off"/>
+                            
+                            <!--<f:facet name="nombre">
+                                <a class="navbar-brand col-sm-3 col-md-2 mr-0" title="#{loginBean.username}" href="#">#{loginBean.username}</a>
                             </f:facet>
+                            <f:facet name="cerrar">
+                                <p:commandLink value="Cerrar sesión" action="#{loginBean.logout}" />
+                            </f:facet>-->
                         </p:menubar>
                     </h:form>
                 </li>
             </ul>
         </nav>
-
+        <!--<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" title="#{loginBean.username}" href="#">#{loginBean.username}</a>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <h:form>
+                        <p:commandLink value="Cerrar sesión" action="#{loginBean.logout}" />
+                    </h:form>
+                </li>
+            </ul>
+        </nav>-->
         
         <div class="container-fluid" >
             <div class="row">
@@ -101,29 +93,29 @@
                         <h:form>
                             
                             <p:menu>
-                                <p:submenu label="Actividades">
+                                <p:submenu label="Actividades" rendered="#{rolBean.mostrarMenuActividades()}">
                                     <p:menuitem value="Proyectos" action="proyectos" icon="pi pi-refresh"/>
                                     <p:menuitem value="Incidentes" action="incidente" icon="pi pi-refresh"/>
                                     <p:menuitem value="Entregables" action="entregable" icon="pi pi-refresh"/>
                                     <p:menuitem value="Tareas" action="tarea" icon="pi pi-refresh"/>
                                 </p:submenu>
-                                <p:submenu label="Gestion">
-                                    <p:menuitem value="Personas" ajax="false" icon="pi pi-refresh"/>
+                                <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenuGestion()}">
+                                    <p:menuitem value="Personas" action="persona" ajax="false" icon="pi pi-refresh"/>
                                     <p:menuitem value="Usuarios" action="usuarios" icon="pi pi-refresh"/>
                                     <p:menuitem value="Roles" action="roles" icon="pi pi-refresh"/>
                                     <p:menuitem value="Permisos" action="permisos" icon="pi pi-refresh"/>                                    
                                 </p:submenu>
-                                <p:submenu label="Parametrizacion">
-                                    <p:menuitem value="Ambientes" action="ambiente" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Areas" action="area" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Complejidades" action="complejidad" icon="pi pi-refresh"/>
+                                <p:submenu label="Parametrizacion" rendered="#{rolBean.mostrarMenuParametrizacion()}">
+                                    <p:menuitem value="Ambiente" action="ambiente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Area" action="area" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Complejidad" action="complejidad" icon="pi pi-refresh"/>
                                     <p:menuitem value="Estados" action="estado" icon="pi pi-refresh"/>
                                     <p:menuitem value="Nacionalidades" action="nacionalidad" icon="pi pi-refresh"/>
                                     <p:menuitem value="Prioridades" action="prioridad" icon="pi pi-refresh"/>
                                     <p:menuitem value="Segmentos" action="segmento" icon="pi pi-refresh"/>
                                     <p:menuitem value="Servicios" action="servicio" icon="pi pi-refresh"/>
                                 </p:submenu>
-                                <p:submenu label="Informes">
+                                <p:submenu label="Informes" rendered="#{rolBean.mostrarMenuInformes()}">
                                     <p:menuitem value="Consolidados " url="http://www.primefaces.org" icon="pi pi-refresh"/>
                                     <p:menuitem value=" Generales" icon="pi pi-refresh"/>
                                 </p:submenu>
@@ -135,20 +127,21 @@
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                         <h1 class="h2"><ui:insert name="tituloPagina" /></h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group mr-2">
+                        <!--    
+                        <div class="btn-group mr-2">
                                 <button class="btn btn-sm btn-outline-secondary">Compartir</button>
                                 <button class="btn btn-sm btn-outline-secondary">Exportar</button>
                             </div>
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                                 <span data-feather="calendar"></span>
                                 Semanal
-                            </button>
+                            </button>-->
                         </div>
                     </div>
                     <ui:insert name="content">
 
                     </ui:insert>
-                </main>
+                </main> 
             </div>
             <div style="float: right;">
                 <footer>

@@ -5,22 +5,18 @@
  */
 package py.com.sigati.ejb;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import py.com.sigati.entities.Permiso;
-import py.com.sigati.entities.Rol;
-import py.com.sigati.entities.RolPermiso;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
  * @author Nelson182py
  */
 @Stateless
-public class PermisoEJB extends AbstractFacade<Permiso> {
+public class UsuarioEJB extends AbstractFacade<Usuario> {
 
     @PersistenceContext(unitName = "com.mycompany_Rollout_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -30,8 +26,22 @@ public class PermisoEJB extends AbstractFacade<Permiso> {
         return em;
     }
 
-    public PermisoEJB() {
-        super(Permiso.class);
+    public UsuarioEJB() {
+        super(Usuario.class);
+    }
+
+    public Usuario obtenerUsuario(String usename){
+       Usuario usuario = null;
+       try{
+           Query q = em.createQuery("Select u from Usuario u where u.usuario = :usuario")
+                   .setParameter("usuario", usename);
+           
+           usuario = (Usuario) q.getSingleResult();
+           
+       }catch(Exception e){
+           
+       }
+       return usuario;
     }
     
 }

@@ -26,7 +26,7 @@
 
                         <p:column headerText="Fecha Inicio">
                             <center>
-                                <p:outputLabel value="#{pro.fechaInicio}" >
+                                <p:outputLabel value="#{tar.fechaInicio}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
@@ -75,13 +75,13 @@
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbTareas').show()"
                                                  update="formDlgTareas" action="#{tareaBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{tareaBean.tareaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareaBean.tareaSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{tareaBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
                                                  action="#{tareaBean.eliminar}" update="fromTareas:dtTareas formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{tareaBean.tareaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareaBean.tareaSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
                             </center>
@@ -153,7 +153,7 @@
                                     <p:selectOneMenu id="selAmbiente" value="#{tareaBean.tareaSeleccionado.idAmbiente}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{ambienteBean.listaAmbiente}" var="ambiente" itemLabel="#{ambiente.descripcion}" itemValue="#{ambiente}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -165,7 +165,7 @@
                                     <p:selectOneMenu id="selComplejidad" value="#{tareaBean.tareaSeleccionado.idComplejidad}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{complejidadBean.listaComplejidad}" var="complejidad" itemLabel="#{complejidad.descripcion}" itemValue="#{complejidad}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -177,7 +177,7 @@
                                     <p:selectOneMenu id="selIncidente" value="#{tareaBean.tareaSeleccionado.idIncidente}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{incidenteBean.listaIncidente}" var="incidente" itemLabel="#{incidente.descripcion}" itemValue="#{incidente}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -189,11 +189,23 @@
                                     <p:selectOneMenu id="selEntregable" value="#{tareaBean.tareaSeleccionado.idEntregable}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{entregableBean.listaEntregable}" var="entregable" itemLabel="#{entregable.descripcion}" itemValue="#{entregable}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
+                            
+                            <div class="form-group row">
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaUsuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>  
   
                         </div>
 

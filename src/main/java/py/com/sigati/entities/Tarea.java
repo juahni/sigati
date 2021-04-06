@@ -85,7 +85,10 @@ public class Tarea implements Serializable {
     @JoinColumn(name = "id_incidente", referencedColumnName = "id")
     @ManyToOne
     private Incidente idIncidente;
-
+    @JoinColumn(name = "id_responsable", referencedColumnName = "codigo_humano")
+    @ManyToOne
+    private Usuario idResponsable;
+    
     public Tarea() {
     }
 
@@ -212,6 +215,14 @@ public class Tarea implements Serializable {
     @Override
     public String toString() {
         return "py.com.sigati.entities.Tarea[ id=" + id + " ]";
+    }
+    
+    public Usuario getIdResponsable() {
+        return idResponsable;
+    }
+
+    public void setIdResponsable(Usuario idResponsable) {
+        this.idResponsable = idResponsable;
     }
     
 }

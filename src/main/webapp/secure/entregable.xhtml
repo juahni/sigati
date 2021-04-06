@@ -12,8 +12,8 @@
                 Administración de Entregables
             </ui:define>    
             <ui:define name="content">
-                <h:form id="fromEntregables">
-                    <p:dataTable id="dtEntregables" value="#{entregableBean.listaEntregable}" var="ent" rows="10" rowKey="#{ent.id}"
+                <h:form id="formGeneric">
+                    <p:dataTable id="dtGeneric" value="#{entregableBean.listaEntregable}" var="ent" rows="10" rowKey="#{ent.id}"
                                  paginator="true" paginatorPosition="bottom">
 
                         <p:column headerText="Nombre">
@@ -76,14 +76,14 @@
                         
                         <p:column headerText="Acción">
                             <center>
-                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbEntregables').show()"
-                                                 update="formDlgEntregables" action="#{entregableBean.antesActualizar}">
+                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
+                                                 update="formDlgGeneric" action="#{entregableBean.antesActualizar}">
                                     <f:setPropertyActionListener value="#{ent}" target="#{entregableBean.entregableSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{entregableBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                 action="#{entregableBean.eliminar}" update="fromEntregables:dtEntregables formGrowl:growl">
+                                                 action="#{entregableBean.eliminar}" update="formGeneric:dtGeneric formGrowl:growl">
                                     <f:setPropertyActionListener value="#{ent}" target="#{entregableBean.entregableSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
@@ -94,9 +94,9 @@
 
                     <div class="float-sm-right" style="padding-top: 10px;">
                         <p:commandButton value="Agregar Entregable" ajax="true" icon="fa fa-plus-circle"  
-                                         oncomplete="PF('wbEntregables').show();"
+                                         oncomplete="PF('wbGeneric').show();"
                                          actionListener="#{entregableBean.agregar()}"
-                                         update="formDlgEntregables">
+                                         update="formDlgGeneric">
                             <f:setPropertyActionListener value="#{false}" target="#{entregableBean.editando}" />
                         </p:commandButton>
                     </div>
@@ -106,9 +106,9 @@
                     </p:confirmDialog>  
                 </h:form>
 
-                <p:dialog id="dlgEntregables" widgetVar="wbEntregables" closeOnEscape="true" closable="true" header="Entregable"
+                <p:dialog id="dlgGeneric" widgetVar="wbGeneric" closeOnEscape="true" closable="true" header="Entregable"
                           width="950" height="650" modal="true"> 
-                    <h:form id="formDlgEntregables">
+                    <h:form id="formDlgGeneric">
                         <div class="bd-example">
                             <div class="form-group row">
                                 <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
@@ -164,7 +164,7 @@
                                     <p:selectOneMenu id="selComplejidad" value="#{entregableBean.entregableSeleccionado.idComplejidad}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{complejidadBean.listaComplejidad}" var="complejidad" itemLabel="#{complejidad.descripcion}" itemValue="#{complejidad}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -176,7 +176,7 @@
                                     <p:selectOneMenu id="selEstado" value="#{entregableBean.entregableSeleccionado.idEstado}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -189,7 +189,7 @@
                                     <p:selectOneMenu id="selPrioridad" value="#{entregableBean.entregableSeleccionado.idPrioridad}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{prioridadBean.listaPrioridad}" var="prioridad" itemLabel="#{prioridad.descripcion}" itemValue="#{prioridad}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -201,7 +201,7 @@
                                     <p:selectOneMenu id="selServicio" value="#{entregableBean.entregableSeleccionado.idServicio}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{servicioBean.listaServicio}" var="servicio" itemLabel="#{servicio.descripcion}" itemValue="#{servicio}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -213,7 +213,7 @@
                                     <p:selectOneMenu id="selProyecto" value="#{entregableBean.entregableSeleccionado.idProyecto}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{proyectoBean.listaProyecto}" var="proyecto" itemLabel="#{proyecto.descripcion}" itemValue="#{proyecto}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -223,20 +223,20 @@
                         <center>
                             <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
                                               action="#{entregableBean.guardar}"
-                                              update="fromEntregables:dtEntregables formGrowl:growl"
+                                              update="formGeneric:dtGeneric formGrowl:growl"
                                               process="@this @form"
                                               rendered="#{!entregableBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
                                               action="#{entregableBean.actualizar}"
-                                              update="fromEntregables:dtEntregables formGrowl:growl"
+                                              update="formGeneric:dtGeneric formGrowl:growl"
                                               process="@this @form"
                                               rendered="#{entregableBean.editando}"
                                               />
 
                             <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
-                                              onclick="PF('wbEntregables').hide()"></p:commandButton>
+                                              onclick="PF('wbGeneric').hide()"></p:commandButton>
 
                         </center>
                     </h:form>

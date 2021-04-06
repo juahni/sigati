@@ -32,28 +32,23 @@
         </ui:define>
         <ui:define name="content" >
             <h:form id="formRoles">
-                <p:dataTable id="dtRoles" value="#{rolesBean.listaRoles}" var="rol" rows="10" rowKey="#{rol.idRol}">
-
-
-                    <p:column headerText="Rol">
-                        <p:outputLabel value="#{rol.nombreRol}" />
-                    </p:column>
+                <p:dataTable id="dtRoles" value="#{rolBean.listaRol}" var="rol" rows="10" rowKey="#{rol.id}" paginator="true" paginatorPosition="bottom" >
 
                     <p:column headerText="Descripción">
-                        <p:outputLabel value="#{rol.descripcionRol}" />
+                        <p:outputLabel value="#{rol.descripcion}" />
                     </p:column>
 
-                    <p:column headerText="Acción" style="width: 150px;">
+                    <p:column headerText="Acción" style="width: 150px;" rendered="#{rolBean.mostrarNuevo()}">
                         <center>
                             <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbRoles').show()"
-                                             update="formDlgRoles" action="#{rolesBean.antesActualizar}">
-                                <f:setPropertyActionListener value="#{rol}" target="#{rolesBean.rolSeleccionado}" />
-                                <f:setPropertyActionListener value="#{true}" target="#{rolesBean.editando}" />
+                                             update="formDlgRoles" action="#{rolBean.antesActualizar}">
+                                <f:setPropertyActionListener value="#{rol}" target="#{rolBean.rolSeleccionado}" />
+                                <f:setPropertyActionListener value="#{true}" target="#{rolBean.editando}" />
                             </p:commandButton>
 
                             <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                             action="#{rolesBean.eliminar}" update="formRoles:dtRoles formGrowl:growl">
-                                <f:setPropertyActionListener value="#{rol}" target="#{rolesBean.rolSeleccionado}" />
+                                             action="#{rolBean.eliminar}" update="formRoles:dtRoles formGrowl:growl">
+                                <f:setPropertyActionListener value="#{rol}" target="#{rolBean.rolSeleccionado}" />
                                 <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                             </p:commandButton>
                         </center>
@@ -62,22 +57,27 @@
                 <div class="float-sm-right" style="padding-top: 10px;">
                     <p:commandButton value="Nuevo Rol" ajax="true" icon="fa fa-plus-circle"  
                                      oncomplete="PF('wbRoles').show();"
-                                     actionListener="#{rolesBean.agregarRoles}"
+                                     actionListener="#{rolBean.agregar}"
+                                     rendered="#{rolBean.mostrarNuevo()}"
                                      update="formDlgRoles">
-                        <f:setPropertyActionListener value="#{false}" target="#{rolesBean.editando}" />
+                        <f:setPropertyActionListener value="#{false}" target="#{rolBean.editando}" />
                     </p:commandButton>
                 </div>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog>
             </h:form>
 
             <p:dialog id="dlgRoles" widgetVar="wbRoles" closeOnEscape="true" closable="true" header="Roles"
-                      width="500" height="300"  appendTo="@(body)"> 
+                      width="600" height="200" modal="true">  
                 <h:form id="formDlgRoles">
                     <div class="bd-example">
                         <div class="form-group row">
                             <label for="nom" class="col-sm-2 col-form-label">Rol</label>
                             <div class="col-sm-10">
                                 <p:inputText id="nom" styleClass="form-control" required="false"
-                                             value="#{rolesBean.rolSeleccionado.nombreRol}"/>
+                                             value="#{rolBean.rolSeleccionado.descripcion}"/>
                             </div>
                         </div>
 
@@ -89,27 +89,36 @@
                             <label for="desc" class="col-sm-2 col-form-label">Decripción</label>
                             <div class="col-sm-10">
                                 <p:inputText id="desc" styleClass="form-control" required="false"
-                                             value="#{rolesBean.rolSeleccionado.descripcionRol}"/>
+                                             value="#{rolBean.rolSeleccionado.descripcion}"/>
                             </div>
                         </div>
-
-
                     </div>
-
-
+                     <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Permisos</label>
+                                <div class="col-sm-10">
+                                    
+                                    <p:selectManyCheckbox id="selRol" value="#{rolBean.listaPermisosSeleccionados}" layout="grid" columns="3" 
+                                                          styleClass="grid-checkbox" converter="omnifaces.SelectItemsConverter" style="width: 470px !important">
+                                        <f:selectItems value="#{rolBean.listaPermisosDisponibles}" var="permiso" itemLabel="#{permiso.descripcion}" itemValue="#{permiso}"/>
+                                    </p:selectManyCheckbox>
+                                    
+                                </div>
+                            </div>
+                    
+                    
                     <center>
                         <p:commandButton  styleClass="ui-priority-primary" value="Guardar" style="width: 80px;"
-                                          action="#{rolesBean.guardar}"
+                                          action="#{rolBean.guardar}"
                                           update="formRoles:dtRoles formGrowl:growl"
                                           process="@this @form"
-                                          rendered="#{!rolesBean.editando}"
+                                          rendered="#{!rolBean.editando}"
                                           />
 
                         <p:commandButton  styleClass="ui-priority-primary" value="Actualizar" style="width: 100px;"
-                                          action="#{rolesBean.actualizar}"
+                                          action="#{rolBean.actualizar}"
                                           update="formRoles:dtRoles formGrowl:growl"
                                           process="@this @form"
-                                          rendered="#{rolesBean.editando}"
+                                          rendered="#{rolBean.editando}"
                                           />
 
                         <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"

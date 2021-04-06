@@ -56,7 +56,7 @@
 
                         <p:column headerText="Reportador">
                             <center>
-                                <p:outputLabel value="#{inc.idReportador}" />
+                                <p:outputLabel value="#{inc.idReportador.usuario}" />
                             </center>
                         </p:column>
 
@@ -102,7 +102,7 @@
                     <h:form id="formDlgIncidentes">
                         <div class="bd-example">
                             <div class="form-group row">
-                                <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
+                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="codigo" styleClass="form-control" required="false"
                                                  value="#{incidenteBean.incidenteSeleccionado.nombre}"/>
@@ -110,7 +110,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
+                                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
                                                  value="#{incidenteBean.incidenteSeleccionado.descripcion}"/>
@@ -147,17 +147,21 @@
                                     <p:selectOneMenu id="selSegmento" value="#{incidenteBean.incidenteSeleccionado.idSegmento}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{segmentoBean.listaSegmento}" var="segmento" itemLabel="#{segmento.descripcion}" itemValue="#{segmento}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="cantidadSprint" class="col-sm-2 col-form-label">Responsable</label>
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
                                 <div class="col-sm-10">
-                                    <p:inputText id="cantidadSprint" styleClass="form-control" required="false"
-                                                 value="#{incidenteBean.incidenteSeleccionado.idReportador}"/>
+                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaUsuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>
                                 </div>
                             </div>  
 
@@ -167,6 +171,7 @@
                                     <p:selectOneMenu id="selEstado" value="#{incidenteBean.incidenteSeleccionado.idEstado}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -178,7 +183,7 @@
                                     <p:selectOneMenu id="selServicio" value="#{incidenteBean.incidenteSeleccionado.idServicio}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{servicioBean.listaServicio}" var="servicio" itemLabel="#{servicio.descripcion}" itemValue="#{servicio}" />
                                     </p:selectOneMenu>
                                 </div>
@@ -190,7 +195,7 @@
                                     <p:selectOneMenu id="selPrioridad" value="#{incidenteBean.incidenteSeleccionado.idPrioridad}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{prioridadBean.listaPrioridad}" var="prioridad" itemLabel="#{prioridad.descripcion}" itemValue="#{prioridad}" />
                                     </p:selectOneMenu>
                                 </div>

@@ -56,7 +56,7 @@
 
                         <p:column headerText="Responsable">
                             <center>
-                                <p:outputLabel value="#{pro.idResponsable}" />
+                                <p:outputLabel value="#{pro.idResponsable.usuario}" />
                             </center>
                         </p:column>
 
@@ -98,19 +98,19 @@
                 </h:form>
 
                 <p:dialog id="dlgProyectos" widgetVar="wbProyectos" closeOnEscape="true" closable="true" header="Proyecto"
-                          width="950" height="650" modal="true"> 
+                          width="950" height="650" appendTo="@(body)"> 
                     <h:form id="formDlgProyectos">
                         <div class="bd-example">
                             <div class="form-group row">
-                                <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
-                                <div class="col-sm-10">
+                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                <div class="col-sm-10"> 
                                     <p:inputText id="codigo" styleClass="form-control" required="false"
                                                  value="#{proyectoBean.proyectoSeleccionado.nombre}"/>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
+                                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
                                                  value="#{proyectoBean.proyectoSeleccionado.descripcion}"/>
@@ -147,17 +147,21 @@
                                     <p:selectOneMenu id="selSegmento" value="#{proyectoBean.proyectoSeleccionado.idSegmento}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{segmentoBean.listaSegmento}" var="segmento" itemLabel="#{segmento.descripcion}" itemValue="#{segmento}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>  
 
                             <div class="form-group row">
-                                <label for="cantidadSprint" class="col-sm-2 col-form-label">Responsable</label>
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
                                 <div class="col-sm-10">
-                                    <p:inputText id="cantidadSprint" styleClass="form-control" required="false"
-                                                 value="#{proyectoBean.proyectoSeleccionado.idResponsable}"/>
+                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaUsuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>
                                 </div>
                             </div>  
 
@@ -167,7 +171,7 @@
                                     <p:selectOneMenu id="selEstado" value="#{proyectoBean.proyectoSeleccionado.idEstado}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
-
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/> 
                                         <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
                                     </p:selectOneMenu>
                                 </div>

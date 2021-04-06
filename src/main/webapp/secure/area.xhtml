@@ -16,13 +16,9 @@
                     <p:dataTable id="dtGeneric" value="#{areaBean.listaArea}" var="row" rows="10" rowKey="#{row.id}"
                                  paginator="true" paginatorPosition="bottom" >
 
-                        <p:column headerText="Nombre">
+                        <p:column headerText="Nombres">
                             <p:outputLabel value="#{row.descripcion}" />
-                        </p:column>
-
-                      
-
-
+                        </p:column>                    
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
@@ -56,11 +52,11 @@
                 </h:form>
 
                 <p:dialog id="dlgGeneric" widgetVar="wbGeneric" closeOnEscape="true" closable="true" header="Area"
-                          width="550" height="350" modal="true">
+                          width="450" height="250" modal="true">
                     <h:form id="formDlgGeneric">
                         <div class="bd-example">
                             <div class="form-group row">
-                                <label for="nombre" class="col-sm-2 col-form-label">Descripción</label>
+                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="nombre" styleClass="form-control" required="false"
                                                  value="#{areaBean.areaSeleccionado.descripcion}"/>
@@ -94,5 +90,3 @@
         </ui:composition>
     </h:body>
 </html>
-
-
