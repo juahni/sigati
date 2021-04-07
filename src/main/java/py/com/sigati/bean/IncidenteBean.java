@@ -56,7 +56,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
             infoMessage("Se guardó correctamente.");
             listaIncidente = incidenteEJB.findAll();
             resetearValores();
-            PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
+            PrimeFaces.current().executeScript("PF('wbIncidentes').hide()");
         } catch (Exception e) {
             errorMessage("Se produjo un error.");
         }
@@ -75,7 +75,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
             infoMessage("Se actualizó correctamente.");
             listaIncidente = incidenteEJB.findAll();
             resetearValores();
-            PrimeFaces.current().executeScript("PF('wbGeneric').hide()");
+            PrimeFaces.current().executeScript("PF('wbIncidentes').hide()");
         } catch (Exception e) {
             errorMessage("Se produjo un error.");
         }

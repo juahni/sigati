@@ -5,36 +5,17 @@
        xmlns:p="http://primefaces.org/ui"
        xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:head>
-        <link href="../resources/css/default.css" rel="stylesheet" type="text/css"/>
-        <link href="../resources/css/main.css" rel="stylesheet" type="text/css"/>
-        <link href="./../../resources/css/default.css" rel="stylesheet" type="text/css"/>
-        <style type="text/css">
-            .ui-datalist {
-                width:300px;
-                margin-bottom: 20px;
-            }
-
-            .ui-datalist-item {
-                padding:3px;
-            }
-
-            .paginated .ui-datalist-data {
-                padding-left: 20px;
-            }
-        </style>
-    </h:head>
-
-
-    <ui:composition template="/WEB-INF/template.xhtml"  >
+<h:body>
+   <ui:composition template="/WEB-INF/template.xhtml"  >
         <ui:define name="tituloPagina">
             Administración de Permisos
         </ui:define>
         <ui:define name="content" >
             <h:form id="formPermisos">
-                <p:dataTable id="dtPermisos" value="#{permisoBean.listaPermiso}" var="permiso" rows="10" rowKey="#{permiso.id}" paginator="true" paginatorPosition="bottom" >
-
-                    <p:column headerText="Descripción">
+                <p:dataTable id="dtPermisos" widgetVar="wbTable"  value="#{permisoBean.listaPermiso}" var="permiso" rows="10" rowKey="#{permiso.id}" 
+                             paginator="true" paginatorPosition="bottom" reflow="true" styleClass="products-table" rowSelectMode="add">
+                  
+                    <p:column headerText="Descripción" filterBy="#{permiso.descripcion}" filterMatchMode="contains" sortBy="#{permiso.descripcion}">
                         <p:outputLabel value="#{permiso.descripcion}" />
                     </p:column>
 
@@ -127,5 +108,5 @@
 
         </ui:define>
     </ui:composition>
-
+</h:body>
 </html>

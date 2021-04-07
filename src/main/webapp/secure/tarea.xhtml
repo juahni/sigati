@@ -13,14 +13,24 @@
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromTareas">
-                    <p:dataTable id="dtTareas" value="#{tareaBean.listaTarea}" var="tar" rows="10" rowKey="#{tar.id}"
+                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareaBean.listaTarea}" var="tar" rows="10" rowKey="#{tar.id}"
                                  paginator="true" paginatorPosition="bottom">
 
-                        <p:column headerText="Nombre">
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Nombre" filterBy="#{tar.nombre}" filterMatchMode="contains">
                             <p:outputLabel value="#{tar.nombre}" />
                         </p:column>
 
-                        <p:column headerText="Descripción">                           
+                       <!-- <p:column headerText="Descripción">                           
                             <p:outputLabel value="#{tar.descripcion}" />
                         </p:column>
 
@@ -30,9 +40,9 @@
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
-                        </p:column>
+                        </p:column>-->
 
-                        <p:column headerText="Fec. Ini Estimada">
+                        <p:column headerText="Fec. Ini Estimada" sortBy="#{tar.fechaInicioEstimado}">
                             <center>
                                 <p:outputLabel value="#{tar.fechaInicioEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -40,7 +50,7 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Fec. Fin Estimada">
+                        <p:column headerText="Fec. Fin Estimada" sortBy="#{tar.fechaFinEstimado}">
                             <center>
                                 <p:outputLabel value="#{tar.fechaFinEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -48,25 +58,25 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Ambiente">
+                        <p:column headerText="Ambiente" filterBy="#{tar.idAmbiente.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{tar.idAmbiente.descripcion}"/>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Complejidad">
+                        <p:column headerText="Complejidad" filterBy="#{tar.idComplejidad.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{tar.idComplejidad.descripcion}" />
                             </center>
                         </p:column>
 
-                        <p:column headerText="Incidente">
+                        <p:column headerText="Incidente" filterBy="#{tar.idIncidente.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{tar.idIncidente.descripcion}" />
                             </center>
                         </p:column>    
                         
-                        <p:column headerText="Entregable">
+                        <p:column headerText="Entregable" filterBy="#{tar.idEntregable.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{tar.idEntregable.descripcion}" />
                             </center>

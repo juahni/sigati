@@ -16,13 +16,13 @@
                     <p:dataTable id="dtGeneric" value="#{personaBean.listaPersona}" var="row" rows="10" rowKey="#{row.id}"
                                  paginator="true" paginatorPosition="bottom" >
 
-                        <p:column headerText="Nombres">
+                        <p:column headerText="Nombres" filterBy="#{row.nombre}" filterMatchMode="contains">
                             <p:outputLabel value="#{row.nombre}" />
                         </p:column>
-                        <p:column headerText="Apellidos">
+                        <p:column headerText="Apellidos" filterBy="#{row.apellido}" filterMatchMode="contains">
                             <p:outputLabel value="#{row.apellido}" />
                         </p:column>
-                        <p:column headerText="direccion">
+                        <p:column headerText="direccion"  filterBy="#{row.direccion}" filterMatchMode="contains">
                             <p:outputLabel value="#{row.direccion}" />
                         </p:column>
 

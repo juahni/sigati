@@ -13,14 +13,24 @@
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromIncidentes">
-                    <p:dataTable id="dtIncidentes" value="#{incidenteBean.listaIncidente}" var="inc" rows="10" rowKey="#{inc.id}"
+                    <p:dataTable id="dtIncidentes" widgetVar="wbTable" value="#{incidenteBean.listaIncidente}" var="inc" rows="10" rowKey="#{inc.id}"
                                  paginator="true" paginatorPosition="bottom">
 
-                        <p:column headerText="Nombre">
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
+
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Nombre" filterBy="#{inc.nombre}" filterMatchMode="contains">
                             <p:outputLabel value="#{inc.nombre}" />
                         </p:column>
 
-                        <p:column headerText="Descripción">                           
+                        <!-- <p:column headerText="Descripción">                           
                             <p:outputLabel value="#{inc.descripcion}" />
                         </p:column>
 
@@ -30,9 +40,9 @@
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
-                        </p:column>
+                        </p:column>-->
 
-                        <p:column headerText="Fec. Ini Estimada">
+                        <p:column headerText="Fec. Ini Estimada" sortBy="#{inc.fechaInicioEstimado}">
                             <center>
                                 <p:outputLabel value="#{inc.fechaInicioEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -40,7 +50,7 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Fec. Fin Estimada">
+                        <p:column headerText="Fec. Fin Estimada" sortBy="#{inc.fechaFinEstimado}">
                             <center>
                                 <p:outputLabel value="#{inc.fechaFinEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -48,19 +58,19 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Prioridad">
+                        <p:column headerText="Prioridad" filterBy="#{inc.idPrioridad.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{inc.idPrioridad.descripcion}"/>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Reportador">
+                        <p:column headerText="Reportador" filterBy="#{inc.idReportador.usuario}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{inc.idReportador.usuario}" />
                             </center>
                         </p:column>
 
-                        <p:column headerText="Estado">
+                        <p:column headerText="Estado" filterBy="#{inc.idEstado.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{inc.idEstado.descripcion}" />
                             </center>

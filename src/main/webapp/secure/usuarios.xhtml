@@ -16,16 +16,12 @@
                     <p:dataTable id="dtUsuarios" value="#{usuarioBean.listaUsuarios}" var="usu" rows="10" rowKey="#{usu.usuario}"
                                  paginator="true" paginatorPosition="bottom" >
 
-                        <p:column headerText="Usuario">
+                        <p:column headerText="Usuario" filterBy="#{usu.usuario}" filterMatchMode="contains">
                             <p:outputLabel value="#{usu.usuario}" />
                         </p:column>
-
-
-                        <p:column headerText="Rol">
+                        <p:column headerText="Rol" filterBy="#{usu.idRol.descripcion}" filterMatchMode="contains">
                             <p:outputLabel value="#{usu.idRol.descripcion}" />
-                        </p:column>
-                            
-
+                        </p:column>                            
                         <p:column headerText="Acción" rendered="#{usuarioBean.mostrarNuevo()}">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbUsuarios').show()"

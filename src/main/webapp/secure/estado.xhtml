@@ -16,13 +16,9 @@
                     <p:dataTable id="dtGeneric" value="#{estadoBean.listaEstado}" var="row" rows="10" rowKey="#{row.id}"
                                  paginator="true" paginatorPosition="bottom" >
 
-                        <p:column headerText="Nombre">
+                        <p:column headerText="Nombre" filterBy="#{row.descripcion}" filterMatchMode="contains">
                             <p:outputLabel value="#{row.descripcion}" />
-                        </p:column>
-
-                      
-
-
+                        </p:column>                  
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"

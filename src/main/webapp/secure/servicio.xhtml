@@ -16,7 +16,7 @@
                     <p:dataTable id="dtGeneric" value="#{servicioBean.listaServicio}" var="row" rows="10" rowKey="#{row.id}"
                                  paginator="true" paginatorPosition="bottom" >
 
-                        <p:column headerText="Nombre">
+                        <p:column headerText="Nombre" filterBy="#{row.descripcion}" filterMatchMode="contains">
                             <p:outputLabel value="#{row.descripcion}" />
                         </p:column>
 

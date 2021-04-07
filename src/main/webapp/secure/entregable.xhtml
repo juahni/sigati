@@ -13,22 +13,32 @@
             </ui:define>    
             <ui:define name="content">
                 <h:form id="formGeneric">
-                    <p:dataTable id="dtGeneric" value="#{entregableBean.listaEntregable}" var="ent" rows="10" rowKey="#{ent.id}"
+                    <p:dataTable id="dtGeneric" widgetVar="wbTable" value="#{entregableBean.listaEntregable}" var="ent" rows="10" rowKey="#{ent.id}"
                                  paginator="true" paginatorPosition="bottom">
+                        
+                        <f:facet name="header" >
+                            <div class="products-table-header" align="right">                 
+                                <span class="filter-container ui-input-icon-left">
+                                    <i class="pi pi-search"></i>
+                                    <p:inputText id="globalFilter" onkeyup="PF('wbTable').filter()" placeholder="Search"/>
+                                </span>
 
-                        <p:column headerText="Nombre">
+                            </div>
+                        </f:facet>
+                        
+                        <p:column headerText="Nombre" filterBy="#{ent.nombre}" filterMatchMode="contains">
                             <p:outputLabel value="#{ent.nombre}" />
                         </p:column>
                   
-                        <p:column headerText="Fecha Inicio">
+                         <!--<p:column headerText="Fecha Inicio">
                             <center>
                                 <p:outputLabel value="#{ent.fechaInicio}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
-                        </p:column>
+                        </p:column>-->
 
-                        <p:column headerText="Fec. Ini Estimada">
+                        <p:column headerText="Fec. Ini Estimada" sortBy="#{ent.fechaInicioEstimado}">
                             <center>
                                 <p:outputLabel value="#{ent.fechaInicioEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -36,7 +46,7 @@
                             </center>
                         </p:column>
                         
-                        <p:column headerText="Fec. Fin Estimada">
+                        <p:column headerText="Fec. Fin Estimada" sortBy="#{ent.fechaFinEstimado}">
                             <center>
                                 <p:outputLabel value="#{ent.fechaFinEstimado}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -44,31 +54,31 @@
                             </center>
                         </p:column>
 
-                        <p:column headerText="Prioridad">
+                        <p:column headerText="Prioridad" filterBy="#{ent.idPrioridad.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{ent.idPrioridad.descripcion}"/>
                             </center>
                         </p:column>
 
-                        <p:column headerText="Complejidad">
+                        <p:column headerText="Complejidad" filterBy="#{ent.idComplejidad.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{ent.idComplejidad.descripcion}" />
                             </center>
                         </p:column>
 
-                        <p:column headerText="Estado">
+                        <p:column headerText="Estado" filterBy="#{ent.idEstado.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{ent.idEstado.descripcion}" />
                             </center>
                         </p:column>    
                         
-                        <p:column headerText="Servicio">
+                       <!-- <p:column headerText="Servicio">
                             <center>
                                 <p:outputLabel value="#{ent.idServicio.descripcion}" />
                             </center>
-                        </p:column>  
+                        </p:column>  -->
                         
-                         <p:column headerText="Proyecto">
+                         <p:column headerText="Proyecto" filterBy="#{ent.idProyecto.nombre}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{ent.idProyecto.nombre}" />
                             </center>
