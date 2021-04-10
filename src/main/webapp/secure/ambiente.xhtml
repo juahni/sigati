@@ -24,7 +24,7 @@
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
                                                  update="formDlgGeneric" action="#{ambienteBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{row}" target="#{ambienteBean.ambienteSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{row}" target="#{ambienteBean.ambienteSeleccionado}"/>
                                     <f:setPropertyActionListener value="#{true}" target="#{ambienteBean.editando}" />
                                 </p:commandButton>
 

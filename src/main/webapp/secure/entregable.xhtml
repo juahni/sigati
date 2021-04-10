@@ -68,7 +68,7 @@
 
                         <p:column headerText="Estado" filterBy="#{ent.idEstado.descripcion}" filterMatchMode="contains">
                             <center>
-                                <p:outputLabel value="#{ent.idEstado.descripcion}" />
+                                <div class="estado-#{ent.idEstado.descripcion}">#{ent.idEstado.descripcion}</div>
                             </center>
                         </p:column>    
                         

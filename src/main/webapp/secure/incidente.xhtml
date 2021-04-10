@@ -71,8 +71,8 @@
                         </p:column>
 
                         <p:column headerText="Estado" filterBy="#{inc.idEstado.descripcion}" filterMatchMode="contains">
-                            <center>
-                                <p:outputLabel value="#{inc.idEstado.descripcion}" />
+                            <center>         
+                                <div class="estado-#{inc.idEstado.descripcion}">#{inc.idEstado.descripcion}</div>
                             </center>
                         </p:column>                   
                         <p:column headerText="Acción">
@@ -166,7 +166,7 @@
                             <div class="form-group row">
                                 <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                    <p:selectOneMenu id="selResponsable" value="#{incidenteBean.incidenteSeleccionado.idReportador}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>

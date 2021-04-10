@@ -57,5 +57,54 @@
     padding-left: 2px;
     padding-bottom:0px;
 }
-    
 
+.estado-Iniciado {
+  background-color: orange;
+  color: white;
+  padding: 5px;
+  width: 100px;
+  border-radius: 20px;
+} 
+    
+/*No iniciado*/
+.estado-No {
+  background-color: plum;
+  color: white;
+  padding: 5px;
+  width: 100px;
+  border-radius: 20px;
+} 
+
+/*En curso*/
+.estado-En {
+  background-color: yellowgreen;
+  color: white;
+  padding: 5px;
+  width: 100px;
+  border-radius: 20px;
+} 
+
+.estado-Cancelado {
+  background-color: #999;
+  color: white;
+  padding: 5px;
+  width: 100px;
+  border-radius: 20px;
+} 
+
+.estado-Finalizado {
+  background-color: limegreen;
+  color: white;
+  padding: 5px;
+  width: 100px;
+  border-radius: 20px;
+} 
+
+/*Con retraso*/
+.estado-Con {
+  background-color: tomato;
+  color: white;
+  padding: 5px;
+  width: 100px;
+  border-radius: 20px;
+}

@@ -24,7 +24,7 @@
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
                                                  update="formDlgGeneric" action="#{estadoBean.antesActualizar}">
                                     <f:setPropertyActionListener value="#{row}" target="#{estadoBean.estadoSeleccionado}" />
-                                    <f:setPropertyActionListener value="#{row}" target="#{estadoBean.editando}" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{estadoBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar"
