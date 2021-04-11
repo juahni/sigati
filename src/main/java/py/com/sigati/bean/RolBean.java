@@ -235,14 +235,25 @@ public class RolBean extends AbstractBean implements Serializable {
     }
     
     // Puede acceder ADMIN, PM, LIDERTECNICO
-    public boolean mostrarMenuGestion(){        
+   public boolean mostrarMenuGestion(){        
+       Usuario u =  loginBean.getUsuarioLogueado();
+                           
+       if (u != null){
+          if( u.getIdRol().getDescripcion().equals(admin) ||
+              u.getIdRol().getDescripcion().equals(pM) ||
+              u.getIdRol().getDescripcion().equals(liderTecnico) ){
+              return true;
+          }            
+       }
+       return false;
+   }
+    
+    // listar en responsable en proyecto, solo los usuarios con roles de pm
+    public boolean mostrarfiltroPm(){        
         Usuario u =  loginBean.getUsuarioLogueado();
                              
         if (u != null){
-           if( u.getIdRol().getDescripcion().equals(admin) ||
-               u.getIdRol().getDescripcion().equals(pM) ||
-               u.getIdRol().getDescripcion().equals(soporte) ||
-               u.getIdRol().getDescripcion().equals(liderTecnico) ){
+           if(u.getIdRol().getDescripcion().equals(pM) ){
                return true;
            }            
         }

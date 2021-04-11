@@ -87,7 +87,13 @@ public class Tarea implements Serializable {
     private Incidente idIncidente;
     @JoinColumn(name = "id_responsable", referencedColumnName = "codigo_humano")
     @ManyToOne
-    private Usuario idResponsable;
+    private Usuario idResponsable;  
+    @JoinColumn(name = "id_prioridad", referencedColumnName = "id")
+    @ManyToOne
+    private Prioridad idPrioridad;
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    @ManyToOne
+    private Estado idEstado;
     
     public Tarea() {
     }
@@ -225,4 +231,19 @@ public class Tarea implements Serializable {
         this.idResponsable = idResponsable;
     }
     
+    public Prioridad getIdPrioridad() {
+        return idPrioridad;
+    }
+
+    public void setIdPrioridad(Prioridad idPrioridad) {
+        this.idPrioridad = idPrioridad;
+    }
+    
+    public Estado getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Estado idEstado) {
+        this.idEstado = idEstado;
+    }
 }
