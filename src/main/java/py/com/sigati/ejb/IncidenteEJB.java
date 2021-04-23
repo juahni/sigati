@@ -12,7 +12,7 @@ import py.com.sigati.entities.Incidente;
 
 /**
  *
- * @author Nelson182py
+ * @author juahni
  */
 @Stateless
 public class IncidenteEJB extends AbstractFacade<Incidente> {

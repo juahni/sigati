@@ -16,6 +16,7 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
 import py.com.sigati.ejb.EntregableEJB;
 import py.com.sigati.entities.Entregable;
+import py.com.sigati.entities.Usuario;
 
 
 /**
@@ -29,6 +30,17 @@ public class EntregableBean extends AbstractBean implements Serializable {
     private List<Entregable> listaEntregable = new ArrayList<>();
     private Entregable entregableSeleccionado;
     private boolean editando;
+    private String alta = "alta";
+    private String baja = "baja";
+    private String modificacion = "modificacion";
+    private String completo = "completo"; 
+    private String ninguno = "ninguno";
+    private String informes = "descarga"; 
+    private String admin = "Administrador";
+    private String pM = "Project Manager";
+    private String liderTecnico = "Lider Tecnico";
+    private String analista = "Analista";  
+    private String soporte = "Soporte";
 
     @EJB
     private EntregableEJB entregableEJB;
@@ -126,5 +138,30 @@ public class EntregableBean extends AbstractBean implements Serializable {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
+    
+    public boolean agregarEntregable() {
+        Usuario u = loginBean.getUsuarioLogueado();
 
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(liderTecnico)
+                    || u.getIdRol().getDescripcion().equals(admin)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean editarEntregable() {
+        Usuario u = loginBean.getUsuarioLogueado();
+
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(liderTecnico)
+                    || u.getIdRol().getDescripcion().equals(admin)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
 }

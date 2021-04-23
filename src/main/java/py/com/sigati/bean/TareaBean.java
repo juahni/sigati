@@ -16,6 +16,7 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
 import py.com.sigati.ejb.TareaEJB;
 import py.com.sigati.entities.Tarea;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
@@ -28,7 +29,18 @@ public class TareaBean extends AbstractBean implements Serializable {
     private List<Tarea> listaTarea = new ArrayList<>();
     private Tarea tareaSeleccionado;
     private boolean editando;
-
+    private String alta = "alta";
+    private String baja = "baja";
+    private String modificacion = "modificacion";
+    private String completo = "completo"; 
+    private String ninguno = "ninguno";
+    private String informes = "descarga"; 
+    private String admin = "Administrador";
+    private String pM = "Project Manager";
+    private String liderTecnico = "Lider Tecnico";
+    private String analista = "Analista";  
+    private String soporte = "Soporte";
+    
     @EJB
     private TareaEJB tareaEJB;
 
@@ -126,4 +138,43 @@ public class TareaBean extends AbstractBean implements Serializable {
         this.editando = editando;
     }
 
+     public boolean agregarTarea() {
+        Usuario u = loginBean.getUsuarioLogueado();
+
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(liderTecnico)
+                    || u.getIdRol().getDescripcion().equals(admin)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean editarTarea() {
+        Usuario u = loginBean.getUsuarioLogueado();
+
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(admin)
+                    || u.getIdRol().getDescripcion().equals(liderTecnico)
+                    || u.getIdRol().getDescripcion().equals(analista)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+    
+      public boolean eliminarTarea() {
+        Usuario u = loginBean.getUsuarioLogueado();
+
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(admin)
+                    || u.getIdRol().getDescripcion().equals(liderTecnico)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
 }

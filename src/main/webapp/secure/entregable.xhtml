@@ -87,13 +87,13 @@
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbGeneric').show()"
-                                                 update="formDlgGeneric" action="#{entregableBean.antesActualizar}">
+                                                 rendered="#{entregableBean.editarEntregable()}"  update="formDlgGeneric" action="#{entregableBean.antesActualizar}">
                                     <f:setPropertyActionListener value="#{ent}" target="#{entregableBean.entregableSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{entregableBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                 action="#{entregableBean.eliminar}" update="formGeneric:dtGeneric formGrowl:growl">
+                                                    rendered="#{entregableBean.editarEntregable()}" action="#{entregableBean.eliminar}" update="formGeneric:dtGeneric formGrowl:growl">
                                     <f:setPropertyActionListener value="#{ent}" target="#{entregableBean.entregableSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
@@ -103,7 +103,7 @@
                     </p:dataTable> 
 
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Entregable" ajax="true" icon="fa fa-plus-circle"  
+                        <p:commandButton value="Agregar Entregable" rendered="#{entregableBean.agregarEntregable()}" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbGeneric').show();"
                                          actionListener="#{entregableBean.agregar()}"
                                          update="formDlgGeneric">

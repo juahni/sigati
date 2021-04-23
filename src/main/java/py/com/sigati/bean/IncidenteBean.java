@@ -8,6 +8,7 @@ package py.com.sigati.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,7 +36,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
     @PostConstruct
     public void init() {
         incidenteSeleccionado = new Incidente();
-        listaIncidente = incidenteEJB.findAll();
+        listaIncidente = this.getListaIncidenteActivos();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
         try {
             incidenteEJB.create(incidenteSeleccionado);
             infoMessage("Se guardó correctamente.");
-            listaIncidente = incidenteEJB.findAll();
+            listaIncidente = this.getListaIncidenteActivos();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbIncidentes').hide()");
         } catch (Exception e) {
@@ -73,7 +74,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
         try {
             incidenteEJB.edit(incidenteSeleccionado);
             infoMessage("Se actualizó correctamente.");
-            listaIncidente = incidenteEJB.findAll();
+            listaIncidente = this.getListaIncidenteActivos();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbIncidentes').hide()");
         } catch (Exception e) {
@@ -84,9 +85,11 @@ public class IncidenteBean extends AbstractBean implements Serializable {
     @Override
     public void eliminar() {
         try {
-            incidenteEJB.remove(incidenteSeleccionado);
+            //incidenteEJB.remove(incidenteSeleccionado);
+            incidenteSeleccionado.setActivo(0);
+            incidenteEJB.edit(incidenteSeleccionado);
             infoMessage("Eliminado correctamente");
-           listaIncidente = incidenteEJB.findAll();
+            listaIncidente = this.getListaIncidenteActivos();
         } catch (Exception e) {
             errorMessage("No se pudo eliminar el registro");
         }
@@ -95,7 +98,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
 
     public void agregar() {
         resetearValores();
-        listaIncidente = incidenteEJB.findAll();
+        listaIncidente = this.getListaIncidenteActivos();
     }
 
     public List<Incidente> getListaIncidente() {
@@ -124,6 +127,18 @@ public class IncidenteBean extends AbstractBean implements Serializable {
 
     public void setEditando(boolean editando) {
         this.editando = editando;
+    }
+    
+     public List<Incidente> getListaIncidenteActivos() {
+         
+        List<Incidente> listaIncidenteActivos = new ArrayList<>();
+        listaIncidente = incidenteEJB.findAll();
+        for (Incidente i : listaIncidente) {
+            if(i.getActivo().equals(1)){
+                listaIncidenteActivos.add(i);
+            }       
+        }
+        return listaIncidenteActivos;
     }
 
 }

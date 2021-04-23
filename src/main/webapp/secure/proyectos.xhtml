@@ -78,13 +78,13 @@
                         <p:column headerText="Acción">
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbProyectos').show()"
-                                                 update="formDlgProyectos" action="#{proyectoBean.antesActualizar}">
+                                               rendered="#{proyectoBean.editarProyecto()}"  update="formDlgProyectos" action="#{proyectoBean.antesActualizar}">
                                     <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{proyectoBean.editando}" />
                                 </p:commandButton>
 
                                 <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                 action="#{proyectoBean.eliminar}" update="fromProyectos:dtProyectos formGrowl:growl">
+                                                  rendered="#{proyectoBean.editarProyecto()}" action="#{proyectoBean.eliminar}" update="fromProyectos:dtProyectos formGrowl:growl">
                                     <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
                                     <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
                                 </p:commandButton>
@@ -94,7 +94,7 @@
                     </p:dataTable> 
                   
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Proyecto" ajax="true" icon="fa fa-plus-circle"  
+                        <p:commandButton value="Agregar Proyecto" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbProyectos').show();"
                                          actionListener="#{proyectoBean.agregar()}"
                                          update="formDlgProyectos">

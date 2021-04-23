@@ -94,10 +94,10 @@
                             
                             <p:menu>
                                 <p:submenu label="Actividades" rendered="#{rolBean.mostrarMenuActividades()}">
-                                    <p:menuitem value="Proyectos" action="proyectos" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Incidentes" action="incidente" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Entregables" action="entregable" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Tareas" action="tarea" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Proyectos" rendered="#{rolBean.mostrarMenuProyecto()}" action="proyectos" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" rendered="#{rolBean.mostrarMenuIncidente()}" action="incidente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Entregables" rendered="#{rolBean.mostrarMenuEntregable()}" action="entregable" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas" rendered="#{rolBean.mostrarMenuTarea()}" action="tarea" icon="pi pi-refresh"/>
                                 </p:submenu>
                                 <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenuGestion()}">
                                     <p:menuitem value="Personas" action="persona" ajax="false" icon="pi pi-refresh"/>

@@ -16,6 +16,7 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
 import py.com.sigati.ejb.ProyectoEJB;
 import py.com.sigati.entities.Proyecto;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
@@ -28,7 +29,18 @@ public class ProyectoBean extends AbstractBean implements Serializable {
     private List<Proyecto> listaProyecto = new ArrayList<>();
     private Proyecto proyectoSeleccionado;
     private boolean editando;
-
+    private String alta = "alta";
+    private String baja = "baja";
+    private String modificacion = "modificacion";
+    private String completo = "completo"; 
+    private String ninguno = "ninguno";
+    private String informes = "descarga"; 
+    private String admin = "Administrador";
+    private String pM = "Project Manager";
+    private String liderTecnico = "Lider Tecnico";
+    private String analista = "Analista";  
+    private String soporte = "Soporte";
+    
     @EJB
     private ProyectoEJB proyectoEJB;
 
@@ -125,5 +137,30 @@ public class ProyectoBean extends AbstractBean implements Serializable {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
+    
+    public boolean agregarProyecto(){
+         Usuario u =  loginBean.getUsuarioLogueado();
+        
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(pM)
+             || u.getIdRol().getDescripcion().equals(admin)){
+               
+               return true;
+           }            
+        }
+        return false;      
+    }
+     
+    public boolean editarProyecto() {
+        Usuario u = loginBean.getUsuarioLogueado();
 
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(pM)
+                    || u.getIdRol().getDescripcion().equals(admin)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
 }

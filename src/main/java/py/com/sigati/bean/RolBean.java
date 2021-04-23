@@ -227,6 +227,7 @@ public class RolBean extends AbstractBean implements Serializable {
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
                u.getIdRol().getDescripcion().equals(soporte) ||
+               u.getIdRol().getDescripcion().equals(analista) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ){
                return true;
            }            
@@ -287,4 +288,60 @@ public class RolBean extends AbstractBean implements Serializable {
         }
         return false;
     }
+    
+     public boolean mostrarMenuIncidente(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(soporte)){
+               return true;
+           }            
+        }
+        return false;
+    }
+     
+     public boolean mostrarMenuProyecto(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista)) {
+               return true;
+           }            
+        }
+        return false;
+    }
+     
+     public boolean mostrarMenuEntregable(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista)) {
+               return true;
+           }            
+        }
+        return false;
+    }
+     
+     public boolean mostrarMenuTarea(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista) ||
+               u.getIdRol().getDescripcion().equals(soporte)) {
+               return true;
+           }            
+        }
+        return false;
+    }
+    
 }

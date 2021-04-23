@@ -95,12 +95,15 @@ public class Incidente implements Serializable {
     private Usuario idReportador;
     @OneToMany(mappedBy = "idIncidente")
     private List<Tarea> tareaList;
+    @Column(name = "activo", nullable = false)
+    private Integer activo;
 
     public Incidente() {
     }
 
     public Incidente(Integer id) {
         this.id = id;
+        this.activo = 1;
     }
 
     public Incidente(Integer id, Date fechaInicio, Date fechaInicioEstimado, Date fechaFin, Date fechaFinEstimado) {
@@ -109,6 +112,7 @@ public class Incidente implements Serializable {
         this.fechaInicioEstimado = fechaInicioEstimado;
         this.fechaFin = fechaFin;
         this.fechaFinEstimado = fechaFinEstimado;
+        this.activo = 1;
     }
 
     public Integer getId() {
@@ -238,6 +242,14 @@ public class Incidente implements Serializable {
     @Override
     public String toString() {
         return "py.com.sigati.entities.Incidente[ id=" + id + " ]";
+    }
+    
+    public Integer getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Integer activo) {
+        this.activo = activo;
     }
     
 }
