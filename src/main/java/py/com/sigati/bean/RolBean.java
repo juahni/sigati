@@ -240,9 +240,10 @@ public class RolBean extends AbstractBean implements Serializable {
        Usuario u =  loginBean.getUsuarioLogueado();
                            
        if (u != null){
-          if( u.getIdRol().getDescripcion().equals(admin) ||
-              u.getIdRol().getDescripcion().equals(pM) ||
-              u.getIdRol().getDescripcion().equals(liderTecnico) ){
+          if( u.getIdRol().getDescripcion().equals(admin)
+             //  u.getIdRol().getDescripcion().equals(pM) ||
+             //  u.getIdRol().getDescripcion().equals(liderTecnico) 
+             ){
               return true;
           }            
        }

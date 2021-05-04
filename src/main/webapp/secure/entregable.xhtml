@@ -120,6 +120,18 @@
                           width="950" height="650" modal="true"> 
                     <h:form id="formDlgGeneric">
                         <div class="bd-example">
+                                                        
+                            <div class="form-group row">
+                                <label for="selProyecto" class="col-sm-2 col-form-label">Proyecto</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selProyecto" value="#{entregableBean.entregableSeleccionado.idProyecto}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{proyectoBean.listaProyectoActivos}" var="proyecto" itemLabel="#{proyecto.descripcion}" itemValue="#{proyecto}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
@@ -213,18 +225,6 @@
                                                      >
                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>
                                         <f:selectItems value="#{servicioBean.listaServicio}" var="servicio" itemLabel="#{servicio.descripcion}" itemValue="#{servicio}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group row">
-                                <label for="selProyecto" class="col-sm-2 col-form-label">Proyecto</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selProyecto" value="#{entregableBean.entregableSeleccionado.idProyecto}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{proyectoBean.listaProyecto}" var="proyecto" itemLabel="#{proyecto.descripcion}" itemValue="#{proyecto}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>

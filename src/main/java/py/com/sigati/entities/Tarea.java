@@ -93,7 +93,13 @@ public class Tarea implements Serializable {
     private Prioridad idPrioridad;
     @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne
-    private Estado idEstado;
+    private Estado idEstado;  
+    @Column(name = "horas_estimadas", nullable = false)
+    private Integer horasEstimadas;
+    @Size(max = 100)
+    @Column(name = "horas", nullable = false)
+    private Integer horas;
+    @Size(max = 100)
     
     public Tarea() {
     }
@@ -245,5 +251,21 @@ public class Tarea implements Serializable {
 
     public void setIdEstado(Estado idEstado) {
         this.idEstado = idEstado;
+    }
+    
+    public void setHorasEstimadas(Integer horasEstimadas) {
+        this.horasEstimadas = horasEstimadas;
+    }
+    
+    public Integer getHorasEstimadas() {
+        return horasEstimadas;
+    }
+    
+     public void setHoras(Integer horas) {
+        this.horas = horas;
+    }
+    
+    public Integer getHoras() {
+        return horas;
     }
 }

@@ -28,6 +28,7 @@ import py.com.sigati.entities.Usuario;
 public class EntregableBean extends AbstractBean implements Serializable {
 
     private List<Entregable> listaEntregable = new ArrayList<>();
+    private List<Entregable> listaEntregablesActivos;
     private Entregable entregableSeleccionado;
     private boolean editando;
     private String alta = "alta";
@@ -163,5 +164,19 @@ public class EntregableBean extends AbstractBean implements Serializable {
             }
         }
         return false;
+    }
+    
+     public List<Entregable> getListaEntregablesActivos() {
+        listaEntregablesActivos = new ArrayList<>();
+        listaEntregable = entregableEJB.findAll();
+         for (Entregable  e:listaEntregable) {
+            if(e != null){
+                if(e.getIdEstado().getDescripcion().equals("Iniciado") || 
+                        e.getIdEstado().getDescripcion().equals("En curso")){
+                    listaEntregablesActivos.add(e);
+                }       
+            }
+         }    
+        return listaEntregablesActivos;
     }
 }

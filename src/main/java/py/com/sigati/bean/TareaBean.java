@@ -170,7 +170,9 @@ public class TareaBean extends AbstractBean implements Serializable {
 
         if (u != null) {
             if (u.getIdRol().getDescripcion().equals(admin)
-                    || u.getIdRol().getDescripcion().equals(liderTecnico)) {
+                    || u.getIdRol().getDescripcion().equals(liderTecnico)
+                    
+                    ) {
 
                 return true;
             }

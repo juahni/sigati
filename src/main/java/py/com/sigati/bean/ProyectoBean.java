@@ -27,6 +27,7 @@ import py.com.sigati.entities.Usuario;
 public class ProyectoBean extends AbstractBean implements Serializable {
 
     private List<Proyecto> listaProyecto = new ArrayList<>();
+    private List<Proyecto> listaProyectosActivos;
     private Proyecto proyectoSeleccionado;
     private boolean editando;
     private String alta = "alta";
@@ -128,8 +129,6 @@ public class ProyectoBean extends AbstractBean implements Serializable {
         this.proyectoSeleccionado = proyectoSeleccionado;
     }
 
-   
-
     public boolean isEditando() {
         return editando;
     }
@@ -163,4 +162,19 @@ public class ProyectoBean extends AbstractBean implements Serializable {
         }
         return false;
     }
+    
+    public List<Proyecto> getListaProyectoActivos() {
+        listaProyectosActivos = new ArrayList<>();
+        listaProyecto = proyectoEJB.findAll();
+         for (Proyecto  p:listaProyecto) {
+            if(p != null){
+                if(p.getIdEstado().getDescripcion().equals("Iniciado") || 
+                        p.getIdEstado().getDescripcion().equals("En curso")){
+                    listaProyectosActivos.add(p);
+                }       
+            }
+         }    
+        return listaProyectosActivos;
+    }
+    
 }

@@ -125,6 +125,18 @@
                     <h:form id="formDlgTareas">
                         <div class="bd-example">
                             <div class="form-group row">
+                                <label for="selEntregable" class="col-sm-2 col-form-label">Entregable</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selEntregable" value="#{tareaBean.tareaSeleccionado.idEntregable}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{entregableBean.listaEntregablesActivos}" var="entregable" itemLabel="#{entregable.descripcion}" itemValue="#{entregable}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
                                 <label for="codigo" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10">
                                     <p:inputText id="codigo" styleClass="form-control" required="false"
@@ -157,10 +169,34 @@
                             </div>  
 
                             <div class="form-group row">
-                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
+                                <label for="fechaFinEst" class="col-sm-2 col-form-label">Fecha fin Estimada</label>
+                                <div class="col-sm-10">
+                                    <p:calendar id="fechaFinEst"  required="false"
+                                                value="#{tareaBean.tareaSeleccionado.fechaFinEstimado}"/>
+                                </div>
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaFin"  required="false"
-                                                value="#{tareaBean.tareaSeleccionado.fechaFinEstimado}"/>
+                                                value="#{tareaBean.tareaSeleccionado.fechaFin}"/>
+                                </div>
+                            </div> 
+                            
+                             <div class="form-group row">
+                                <label for="selHoras_est" class="col-sm-2 col-form-label">Horas estimadas</label>
+                                 <div class="col-sm-10">
+                                    <p:inputText id="selHoras_est" styleClass="form-control" required="false"
+                                                 value="#{tareaBean.tareaSeleccionado.horasEstimadas}"/>
+                                </div>
+                            </div>  
+                            
+                              <div class="form-group row">
+                                <label for="selHoras" class="col-sm-2 col-form-label">Horas</label>
+                                 <div class="col-sm-10">
+                                    <p:inputText id="selHoras" styleClass="form-control" required="false"
+                                                 value="#{tareaBean.tareaSeleccionado.horas}"/>
                                 </div>
                             </div>  
 
@@ -220,19 +256,7 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-                            
-                            <div class="form-group row">
-                                <label for="selEntregable" class="col-sm-2 col-form-label">Entregable</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selEntregable" value="#{tareaBean.tareaSeleccionado.idEntregable}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{entregableBean.listaEntregable}" var="entregable" itemLabel="#{entregable.descripcion}" itemValue="#{entregable}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>
-                            
+                                                                             
                             <div class="form-group row">
                                 <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
                                 <div class="col-sm-10">
@@ -240,7 +264,7 @@
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{usuarioBean.listaUsuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                        <f:selectItems value="#{usuarioBean.listaAnalistas}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>  
