@@ -14,8 +14,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
-import py.com.sigati.ejb.TareaEJB;
+import py.com.sigati.ejb.TareasDiariasEJB;
 import py.com.sigati.entities.Tarea;
+import py.com.sigati.entities.TareasDiarias;
 import py.com.sigati.entities.Usuario;
 
 /**
@@ -24,10 +25,10 @@ import py.com.sigati.entities.Usuario;
  */
 @ManagedBean
 @SessionScoped
-public class TareaBean extends AbstractBean implements Serializable {
+public class TareasDiariasBean extends AbstractBean implements Serializable {
 
-    private List<Tarea> listaTarea = new ArrayList<>();
-    private Tarea tareaSeleccionado;
+    private List<TareasDiarias> listaTareasDiarias = new ArrayList<>();
+    private TareasDiarias tareaSeleccionado;
     private boolean editando;
     private String alta = "alta";
     private String baja = "baja";
@@ -42,17 +43,17 @@ public class TareaBean extends AbstractBean implements Serializable {
     private String soporte = "Soporte";
     
     @EJB
-    private TareaEJB tareaEJB;
+    private TareasDiariasEJB tareasDiariasEJB;
 
     @PostConstruct
     public void init() {
-        tareaSeleccionado = new Tarea();
-        listaTarea = tareaEJB.findAll();
+        tareaSeleccionado = new TareasDiarias();
+        listaTareasDiarias = tareasDiariasEJB.findAll();
     }
 
     @Override
     public void resetearValores() {
-        tareaSeleccionado = new Tarea();
+        tareaSeleccionado = new TareasDiarias();
         editando = false;
     }
 
@@ -64,9 +65,9 @@ public class TareaBean extends AbstractBean implements Serializable {
     @Override
     public void guardar() {
         try {
-            tareaEJB.create(tareaSeleccionado);
+            tareasDiariasEJB.create(tareaSeleccionado);
             infoMessage("Se guardó correctamente.");
-            listaTarea = tareaEJB.findAll();
+            listaTareasDiarias = tareasDiariasEJB.findAll();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbTareas').hide()");
         } catch (Exception e) {
@@ -77,15 +78,15 @@ public class TareaBean extends AbstractBean implements Serializable {
     @Override
     public void antesActualizar() {
         editando = true;
-        listaTarea = tareaEJB.findAll();
+        listaTareasDiarias = tareasDiariasEJB.findAll();
     }
 
     @Override
     public void actualizar() {
         try {
-            tareaEJB.edit(tareaSeleccionado);
+            tareasDiariasEJB.edit(tareaSeleccionado);
             infoMessage("Se actualizó correctamente.");
-            listaTarea = tareaEJB.findAll();
+            listaTareasDiarias = tareasDiariasEJB.findAll();
             resetearValores();
             PrimeFaces.current().executeScript("PF('wbTareas').hide()");
         } catch (Exception e) {
@@ -96,9 +97,9 @@ public class TareaBean extends AbstractBean implements Serializable {
     @Override
     public void eliminar() {
         try {
-            tareaEJB.remove(tareaSeleccionado);
+            tareasDiariasEJB.remove(tareaSeleccionado);
             infoMessage("Eliminado correctamente");
-           listaTarea = tareaEJB.findAll();
+           listaTareasDiarias = tareasDiariasEJB.findAll();
         } catch (Exception e) {
             errorMessage("No se pudo eliminar el registro");
         }
@@ -107,24 +108,24 @@ public class TareaBean extends AbstractBean implements Serializable {
 
     public void agregar() {
         resetearValores();
-        listaTarea = tareaEJB.findAll();
+        listaTareasDiarias = tareasDiariasEJB.findAll();
     }
 
-    public List<Tarea> getListaTarea() {
-        return listaTarea;
+    public List<TareasDiarias> getListaTarea() {
+        return listaTareasDiarias;
     }
 
-    public void setListaTarea(List<Tarea> listaTarea) {
-        this.listaTarea = listaTarea;
+    public void setListaTarea(List<TareasDiarias> listaTarea) {
+        this.listaTareasDiarias = listaTarea;
     }
 
    
 
-    public Tarea getTareaSeleccionado() {
+    public TareasDiarias getTareaSeleccionado() {
         return tareaSeleccionado;
     }
 
-    public void setTareaSeleccionado(Tarea tareaSeleccionado) {
+    public void setTareaSeleccionado(TareasDiarias tareaSeleccionado) {
         this.tareaSeleccionado = tareaSeleccionado;
     }
 
@@ -150,38 +151,13 @@ public class TareaBean extends AbstractBean implements Serializable {
         }
         return false;
     }
-     
-    public boolean agregarTareaAnalista() {
-        Usuario u = loginBean.getUsuarioLogueado();
-
-        if (u != null) {
-            if (u.getIdRol().getDescripcion().equals(analista)
-                    || u.getIdRol().getDescripcion().equals(admin)) {
-
-                return true;
-            }
-        }
-        return false;
-    }
 
     public boolean editarTarea() {
         Usuario u = loginBean.getUsuarioLogueado();
 
         if (u != null) {
             if (u.getIdRol().getDescripcion().equals(admin)
-                    || u.getIdRol().getDescripcion().equals(liderTecnico)) {
-
-                return true;
-            }
-        }
-        return false;
-    }
-    
-       public boolean editarTareaAnalista() {
-        Usuario u = loginBean.getUsuarioLogueado();
-
-        if (u != null) {
-            if (u.getIdRol().getDescripcion().equals(admin)
+                    || u.getIdRol().getDescripcion().equals(liderTecnico)
                     || u.getIdRol().getDescripcion().equals(analista)) {
 
                 return true;
@@ -190,28 +166,12 @@ public class TareaBean extends AbstractBean implements Serializable {
         return false;
     }
     
-    
       public boolean eliminarTarea() {
         Usuario u = loginBean.getUsuarioLogueado();
 
         if (u != null) {
             if (u.getIdRol().getDescripcion().equals(admin)
                     || u.getIdRol().getDescripcion().equals(liderTecnico)
-                    
-                    ) {
-
-                return true;
-            }
-        }
-        return false;
-    }
-      
-    public boolean eliminarTareaAnalista() {
-        Usuario u = loginBean.getUsuarioLogueado();
-
-        if (u != null) {
-            if (u.getIdRol().getDescripcion().equals(admin)
-                    || u.getIdRol().getDescripcion().equals(analista)
                     
                     ) {
 

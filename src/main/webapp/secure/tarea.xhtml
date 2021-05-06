@@ -151,15 +151,7 @@
                                                  value="#{tareaBean.tareaSeleccionado.descripcion}"/>
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha Inicio</label>
-                                <div class="col-sm-10">
-                                    <p:calendar id="fechaInicio"  required="false"
-                                                value="#{tareaBean.tareaSeleccionado.fechaInicio}"/>
-                                </div>
-                            </div>  
-
+                       
                             <div class="form-group row">
                                 <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha Inicio Estimada</label>
                                 <div class="col-sm-10">
@@ -175,15 +167,7 @@
                                                 value="#{tareaBean.tareaSeleccionado.fechaFinEstimado}"/>
                                 </div>
                             </div>  
-
-                            <div class="form-group row">
-                                <label for="fechaFin" class="col-sm-2 col-form-label">Fecha</label>
-                                <div class="col-sm-10">
-                                    <p:calendar id="fechaFin"  required="false"
-                                                value="#{tareaBean.tareaSeleccionado.fechaFin}"/>
-                                </div>
-                            </div> 
-                            
+                         
                              <div class="form-group row">
                                 <label for="selHoras_est" class="col-sm-2 col-form-label">Horas estimadas</label>
                                  <div class="col-sm-10">
@@ -191,15 +175,7 @@
                                                  value="#{tareaBean.tareaSeleccionado.horasEstimadas}"/>
                                 </div>
                             </div>  
-                            
-                              <div class="form-group row">
-                                <label for="selHoras" class="col-sm-2 col-form-label">Horas</label>
-                                 <div class="col-sm-10">
-                                    <p:inputText id="selHoras" styleClass="form-control" required="false"
-                                                 value="#{tareaBean.tareaSeleccionado.horas}"/>
-                                </div>
-                            </div>  
-
+                                                   
                             <div class="form-group row">
                                 <label for="selAmbiente" class="col-sm-2 col-form-label">Ambiente</label>
                                 <div class="col-sm-10">
@@ -260,7 +236,7 @@
                             <div class="form-group row">
                                 <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                    <p:selectOneMenu id="selResponsable" value="#{tareaBean.tareaSeleccionado.idResponsable}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>

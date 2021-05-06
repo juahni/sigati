@@ -337,8 +337,19 @@ public class RolBean extends AbstractBean implements Serializable {
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ||
-               u.getIdRol().getDescripcion().equals(analista) ||
                u.getIdRol().getDescripcion().equals(soporte)) {
+               return true;
+           }            
+        }
+        return false;
+    }
+     
+     public boolean mostrarMenuTareaAnalista(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+                
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(analista)) {
                return true;
            }            
         }

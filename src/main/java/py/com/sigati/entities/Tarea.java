@@ -95,11 +95,10 @@ public class Tarea implements Serializable {
     @ManyToOne
     private Estado idEstado;  
     @Column(name = "horas_estimadas", nullable = false)
-    private Integer horasEstimadas;
-    @Size(max = 100)
+    private Integer horasEstimadas = 0;
     @Column(name = "horas", nullable = false)
-    private Integer horas;
-    @Size(max = 100)
+    private Integer horas= 0;
+ 
     
     public Tarea() {
     }
