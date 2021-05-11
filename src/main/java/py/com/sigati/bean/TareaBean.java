@@ -27,6 +27,7 @@ import py.com.sigati.entities.Usuario;
 public class TareaBean extends AbstractBean implements Serializable {
 
     private List<Tarea> listaTarea = new ArrayList<>();
+    private List<Tarea> listaTareasPorAnalistas = new ArrayList<>();
     private Tarea tareaSeleccionado;
     private boolean editando;
     private String alta = "alta";
@@ -219,5 +220,21 @@ public class TareaBean extends AbstractBean implements Serializable {
             }
         }
         return false;
+    }
+    
+    public List<Tarea> getListaTareasPorAnalistas() {
+        
+       Usuario u =  loginBean.getUsuarioLogueado();       
+       listaTarea = tareaEJB.findAll();
+       listaTareasPorAnalistas = new ArrayList<>();
+    
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                if (u.getUsuario().equals(t.getIdResponsable().getUsuario())){
+                    listaTareasPorAnalistas.add(t);
+                }
+            }
+        }
+        return listaTareasPorAnalistas;
     }
 }

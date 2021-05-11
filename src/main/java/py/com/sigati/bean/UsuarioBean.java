@@ -313,7 +313,7 @@ public class UsuarioBean extends AbstractBean implements Serializable {
         return listaAnalistas;
     }
         
-        public List<Usuario> getListaPMs() {
+    public List<Usuario> getListaPMs() {
         listapms = new ArrayList<>();
         listaUsuarios = usuarioEJB.findAll();
          for (Usuario  u:listaUsuarios) {

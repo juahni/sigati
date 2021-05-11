@@ -28,6 +28,7 @@ import py.com.sigati.entities.Usuario;
 public class TareasDiariasBean extends AbstractBean implements Serializable {
 
     private List<TareasDiarias> listaTareasDiarias = new ArrayList<>();
+    private List<TareasDiarias> listaTareasDiariasPorAnalista;
     private TareasDiarias tareaSeleccionado;
     private boolean editando;
     private String alta = "alta";
@@ -165,19 +166,33 @@ public class TareasDiariasBean extends AbstractBean implements Serializable {
         }
         return false;
     }
-    
-      public boolean eliminarTarea() {
+   
+    public boolean eliminarTarea() {
         Usuario u = loginBean.getUsuarioLogueado();
 
         if (u != null) {
             if (u.getIdRol().getDescripcion().equals(admin)
-                    || u.getIdRol().getDescripcion().equals(liderTecnico)
-                    
-                    ) {
+                    || u.getIdRol().getDescripcion().equals(liderTecnico)) {
 
                 return true;
             }
         }
         return false;
+    }
+    
+     public List<TareasDiarias> getListaTareasPorAnalistas() {
+        
+       Usuario u =  loginBean.getUsuarioLogueado();       
+       listaTareasDiarias = tareasDiariasEJB.findAll();
+       listaTareasDiariasPorAnalista = new ArrayList<>();
+    
+        for (TareasDiarias t:listaTareasDiarias) {
+            if (t != null){
+                if (u.getUsuario().equals(t.getIdTarea().getIdResponsable().getUsuario())){
+                    listaTareasDiariasPorAnalista.add(t);
+                }
+            }
+        }
+        return listaTareasDiariasPorAnalista;
     }
 }
