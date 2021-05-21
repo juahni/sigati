@@ -56,7 +56,7 @@
                             <center>
                                 <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbTareas').show()"
                                                  update="formDlgTareas" action="#{tareasDiariasBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{tar}" target="#{tareasDiariasBeaneaBean.tareaSeleccionado}" />
+                                    <f:setPropertyActionListener value="#{tar}" target="#{tareasDiariasBean.tareaSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{tareasDiariasBean.editando}" />
                                 </p:commandButton>
 
@@ -100,18 +100,6 @@
                                 </div>
                             </div>
 
-                        <!-- <div class="form-group row">
-                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selPEstado" value="#{tareaBean.tareaSeleccionado.idEstado}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div> -->
-
                             <div class="form-group row">
                                 <label for="horas" class="col-sm-2 col-form-label">Horas</label>
                                 <div class="col-sm-10">
@@ -119,14 +107,25 @@
                                                  value="#{tareasDiariasBean.tareaSeleccionado.horas}"/>
                                 </div>
                             </div>
-                       
+
                             <div class="form-group row">
                                 <label for="fechaFinEstimada" class="col-sm-2 col-form-label">Fecha</label>
                                 <div class="col-sm-10">
                                     <p:calendar id="fechaFinEstimada" required="false" style="widows: 300px !important;"
                                                 value="#{tareasDiariasBean.tareaSeleccionado.fecha}"/>
                                 </div>
-                            </div>  
+                            </div> 
+
+                            <div class="form-group row">
+                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="option" value="#{selectOneMenuView.selectedOption}">
+                                        <f:selectItem itemLabel="Selecionar" itemValue=""/>
+                                        <f:selectItem itemLabel="En Progreso" itemValue="En Progreso"/>
+                                        <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>                                                                   
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
                                                                                                         
                         </div>
 

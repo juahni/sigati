@@ -231,7 +231,12 @@ public class TareaBean extends AbstractBean implements Serializable {
         for (Tarea t:listaTarea) {
             if (t != null){
                 if (u.getUsuario().equals(t.getIdResponsable().getUsuario())){
-                    listaTareasPorAnalistas.add(t);
+                    if(!t.getIdEstado().getDescripcion().equals("Finalizado") 
+                       && !t.getIdEstado().getDescripcion().equals("Cancelado")){
+                    
+                        listaTareasPorAnalistas.add(t);
+                    }
+                  
                 }
             }
         }

@@ -189,7 +189,11 @@ public class TareasDiariasBean extends AbstractBean implements Serializable {
         for (TareasDiarias t:listaTareasDiarias) {
             if (t != null){
                 if (u.getUsuario().equals(t.getIdTarea().getIdResponsable().getUsuario())){
-                    listaTareasDiariasPorAnalista.add(t);
+                    if(!t.getIdTarea().getIdEstado().getDescripcion().equals("Finalizado") 
+                       && !t.getIdTarea().getIdEstado().getDescripcion().equals("Cancelado")){
+                    
+                        listaTareasDiariasPorAnalista.add(t);
+                    }
                 }
             }
         }
