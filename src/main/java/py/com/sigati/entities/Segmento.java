@@ -36,7 +36,7 @@ public class Segmento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
+    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -108,7 +108,7 @@ public class Segmento implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Segmento[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Segmento[ id=" + id + " ]";
     }
     
 }

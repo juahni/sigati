@@ -9,11 +9,11 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Administración de Tareas
+                Administración de Tareas para Entregables
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromTareas">
-                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareaBean.listaTarea}" var="tar" rows="10" rowKey="#{tar.id}"
+                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareaBean.listaTareasEntregables}" var="tar" rows="10" rowKey="#{tar.id}"
                                  paginator="true" paginatorPosition="bottom">
 
                         <f:facet name="header" >
@@ -76,12 +76,7 @@
                                 <div class="estado-#{tar.idEstado.descripcion}">#{tar.idEstado.descripcion}</div>
                             </center>
                         </p:column>
-                        <p:column headerText="Incidente" filterBy="#{tar.idIncidente.descripcion}" filterMatchMode="contains">
-                            <center>
-                                <p:outputLabel value="#{tar.idIncidente.descripcion}" />
-                            </center>
-                        </p:column>    
-                        
+                       
                         <p:column headerText="Entregable" filterBy="#{tar.idEntregable.descripcion}" filterMatchMode="contains">
                             <center>
                                 <p:outputLabel value="#{tar.idEntregable.descripcion}" />
@@ -190,14 +185,6 @@
                                                  value="#{tareaBean.tareaSeleccionado.horasEstimadas}"/>
                                 </div>
                             </div>  
-                            
-                              <div class="form-group row">
-                                <label for="selHoras" class="col-sm-2 col-form-label">Horas</label>
-                                 <div class="col-sm-10">
-                                    <p:inputText id="selHoras" styleClass="form-control" required="false"
-                                                 value="#{tareaBean.tareaSeleccionado.horas}"/>
-                                </div>
-                            </div>  
 
                             <div class="form-group row">
                                 <label for="selAmbiente" class="col-sm-2 col-form-label">Ambiente</label>
@@ -243,23 +230,12 @@
                                         <f:selectItems value="#{estadoBean.listaEstado}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
                                     </p:selectOneMenu>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="selIncidente" class="col-sm-2 col-form-label">Incidente</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selIncidente" value="#{tareaBean.tareaSeleccionado.idIncidente}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{incidenteBean.listaIncidente}" var="incidente" itemLabel="#{incidente.descripcion}" itemValue="#{incidente}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>
+                            </div>                        
                                                                              
                             <div class="form-group row">
                                 <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selResponsable" value="#{proyectoBean.proyectoSeleccionado.idResponsable}" 
+                                    <p:selectOneMenu id="selResponsable" value="#{tareaBean.tareaSeleccionado.idResponsable}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>

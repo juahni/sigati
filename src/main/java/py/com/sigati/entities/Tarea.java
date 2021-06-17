@@ -7,6 +7,7 @@ package py.com.sigati.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,15 +39,16 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Tarea.findByFechaInicio", query = "SELECT t FROM Tarea t WHERE t.fechaInicio = :fechaInicio")
     , @NamedQuery(name = "Tarea.findByFechaInicioEstimado", query = "SELECT t FROM Tarea t WHERE t.fechaInicioEstimado = :fechaInicioEstimado")
     , @NamedQuery(name = "Tarea.findByFechaFin", query = "SELECT t FROM Tarea t WHERE t.fechaFin = :fechaFin")
-    , @NamedQuery(name = "Tarea.findByFechaFinEstimado", query = "SELECT t FROM Tarea t WHERE t.fechaFinEstimado = :fechaFinEstimado")})
+    , @NamedQuery(name = "Tarea.findByFechaFinEstimado", query = "SELECT t FROM Tarea t WHERE t.fechaFinEstimado = :fechaFinEstimado")
+    , @NamedQuery(name = "Tarea.findByHoras", query = "SELECT t FROM Tarea t WHERE t.horas = :horas")
+    , @NamedQuery(name = "Tarea.findByHorasEstimadas", query = "SELECT t FROM Tarea t WHERE t.horasEstimadas = :horasEstimadas")})
 public class Tarea implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
     @Size(max = 100)
     @Column(name = "nombre", length = 100)
@@ -64,7 +67,7 @@ public class Tarea implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicioEstimado;
     @Basic(optional = false)
-     /*@NotNull*/
+    @NotNull
     @Column(name = "fecha_fin", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
@@ -73,6 +76,12 @@ public class Tarea implements Serializable {
     @Column(name = "fecha_fin_estimado", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaFinEstimado;
+    @Column(name = "horas")
+    private Integer horas;
+    @Column(name = "horas_estimadas")
+    private Integer horasEstimadas;
+    @OneToMany(mappedBy = "idTarea")
+    private List<Incidente> incidenteList;
     @JoinColumn(name = "id_ambiente", referencedColumnName = "id")
     @ManyToOne
     private Ambiente idAmbiente;
@@ -82,24 +91,21 @@ public class Tarea implements Serializable {
     @JoinColumn(name = "id_entregable", referencedColumnName = "id")
     @ManyToOne
     private Entregable idEntregable;
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    @ManyToOne
+    private Estado idEstado;
     @JoinColumn(name = "id_incidente", referencedColumnName = "id")
     @ManyToOne
     private Incidente idIncidente;
-    @JoinColumn(name = "id_responsable", referencedColumnName = "codigo_humano")
-    @ManyToOne
-    private Usuario idResponsable;  
     @JoinColumn(name = "id_prioridad", referencedColumnName = "id")
     @ManyToOne
     private Prioridad idPrioridad;
-    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    @JoinColumn(name = "id_responsable", referencedColumnName = "codigo_humano")
     @ManyToOne
-    private Estado idEstado;  
-    @Column(name = "horas_estimadas", nullable = false)
-    private Integer horasEstimadas = 0;
-    @Column(name = "horas", nullable = false)
-    private Integer horas= 0;
- 
-    
+    private Usuario idResponsable;
+    @OneToMany(mappedBy = "idTarea")
+    private List<TareasDiarias> tareasDiariasList;
+
     public Tarea() {
     }
 
@@ -171,6 +177,30 @@ public class Tarea implements Serializable {
         this.fechaFinEstimado = fechaFinEstimado;
     }
 
+    public Integer getHoras() {
+        return horas;
+    }
+
+    public void setHoras(Integer horas) {
+        this.horas = horas;
+    }
+
+    public Integer getHorasEstimadas() {
+        return horasEstimadas;
+    }
+
+    public void setHorasEstimadas(Integer horasEstimadas) {
+        this.horasEstimadas = horasEstimadas;
+    }
+
+    public List<Incidente> getIncidenteList() {
+        return incidenteList;
+    }
+
+    public void setIncidenteList(List<Incidente> incidenteList) {
+        this.incidenteList = incidenteList;
+    }
+
     public Ambiente getIdAmbiente() {
         return idAmbiente;
     }
@@ -195,12 +225,44 @@ public class Tarea implements Serializable {
         this.idEntregable = idEntregable;
     }
 
+    public Estado getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Estado idEstado) {
+        this.idEstado = idEstado;
+    }
+
     public Incidente getIdIncidente() {
         return idIncidente;
     }
 
     public void setIdIncidente(Incidente idIncidente) {
         this.idIncidente = idIncidente;
+    }
+
+    public Prioridad getIdPrioridad() {
+        return idPrioridad;
+    }
+
+    public void setIdPrioridad(Prioridad idPrioridad) {
+        this.idPrioridad = idPrioridad;
+    }
+
+    public Usuario getIdResponsable() {
+        return idResponsable;
+    }
+
+    public void setIdResponsable(Usuario idResponsable) {
+        this.idResponsable = idResponsable;
+    }
+
+    public List<TareasDiarias> getTareasDiariasList() {
+        return tareasDiariasList;
+    }
+
+    public void setTareasDiariasList(List<TareasDiarias> tareasDiariasList) {
+        this.tareasDiariasList = tareasDiariasList;
     }
 
     @Override
@@ -225,46 +287,7 @@ public class Tarea implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Tarea[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Tarea[ id=" + id + " ]";
     }
     
-    public Usuario getIdResponsable() {
-        return idResponsable;
-    }
-
-    public void setIdResponsable(Usuario idResponsable) {
-        this.idResponsable = idResponsable;
-    }
-    
-    public Prioridad getIdPrioridad() {
-        return idPrioridad;
-    }
-
-    public void setIdPrioridad(Prioridad idPrioridad) {
-        this.idPrioridad = idPrioridad;
-    }
-    
-    public Estado getIdEstado() {
-        return idEstado;
-    }
-
-    public void setIdEstado(Estado idEstado) {
-        this.idEstado = idEstado;
-    }
-    
-    public void setHorasEstimadas(Integer horasEstimadas) {
-        this.horasEstimadas = horasEstimadas;
-    }
-    
-    public Integer getHorasEstimadas() {
-        return horasEstimadas;
-    }
-    
-     public void setHoras(Integer horas) {
-        this.horas = horas;
-    }
-    
-    public Integer getHoras() {
-        return horas;
-    }
 }

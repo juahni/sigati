@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package py.com.sigati.bean;
 
 import java.io.Serializable;
@@ -28,6 +23,8 @@ public class TareaBean extends AbstractBean implements Serializable {
 
     private List<Tarea> listaTarea = new ArrayList<>();
     private List<Tarea> listaTareasPorAnalistas = new ArrayList<>();
+    private List<Tarea> listaTareasEntregables = new ArrayList<>();
+    private List<Tarea> listaTareasIncidentes = new ArrayList<>();
     private Tarea tareaSeleccionado;
     private boolean editando;
     private String alta = "alta";
@@ -42,6 +39,7 @@ public class TareaBean extends AbstractBean implements Serializable {
     private String analista = "Analista";  
     private String soporte = "Soporte";
     
+
     @EJB
     private TareaEJB tareaEJB;
 
@@ -75,6 +73,18 @@ public class TareaBean extends AbstractBean implements Serializable {
         }
     }
 
+    public void guardarTareaIncidente() {
+        try {
+            tareaEJB.create(tareaSeleccionado);
+            infoMessage("Se guardó correctamente.");
+            listaTarea = tareaEJB.findAll();
+            resetearValores();
+            PrimeFaces.current().executeScript("PF('wbTareas').hide()");
+        } catch (Exception e) {
+            errorMessage("Se produjo un error.");
+        }
+    }
+    
     @Override
     public void antesActualizar() {
         editando = true;
@@ -231,15 +241,42 @@ public class TareaBean extends AbstractBean implements Serializable {
         for (Tarea t:listaTarea) {
             if (t != null){
                 if (u.getUsuario().equals(t.getIdResponsable().getUsuario())){
-                    if(!t.getIdEstado().getDescripcion().equals("Finalizado") 
-                       && !t.getIdEstado().getDescripcion().equals("Cancelado")){
-                    
-                        listaTareasPorAnalistas.add(t);
-                    }
-                  
+                     listaTareasPorAnalistas.add(t);
                 }
             }
         }
         return listaTareasPorAnalistas;
     }
+    
+    public List<Tarea> getListaTareasEntregables() {
+              
+       listaTarea = tareaEJB.findAll();
+       listaTareasEntregables = new ArrayList<>();
+    
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                if (t.getIdEntregable() != null){
+                    
+                    listaTareasEntregables.add(t);
+                }
+            }
+        }
+        return listaTareasEntregables;
+    }
+    
+    public List<Tarea> getListaTareasIncidentes() {
+                
+       listaTarea = tareaEJB.findAll();
+       listaTareasIncidentes = new ArrayList<>();
+    
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                if (t.getIdIncidente() != null){
+                     listaTareasIncidentes.add(t);
+                }
+            }
+        }
+        return listaTareasIncidentes;
+    }
+    
 }

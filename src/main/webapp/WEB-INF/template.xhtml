@@ -46,17 +46,22 @@
                             
                             <p:submenu label="Notificaciones" icon="pi pi-external-link">
                                 <p:submenu label="Envios" icon="pi pi-external-link">
-                                    <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
-                                    <p:menuitem value="Correos" icon="pi pi-fw pi-file"/>
+                                    <!-- <p:menuitem value="Mensajes" icon="pi pi-fw pi-file"/>
+                                    <p:menuitem value="Correos" icon="pi pi-fw pi-file"/> -->
+                                    <p:menuitem value="Correos" class="fa fa-fw fa-envelope-o" action="working"/>
+                                    <p:menuitem value="Mensajes" class="fa fa-fw fa-envelope-o" action="working"/>
+                                    
                                 </p:submenu>
                                 <p:submenu label="Alarmas" icon="pi pi-fw pi-calendar">
-                                    <p:menuitem value="Configuracion" icon="pi pi-fw pi-file"/>
+                                    <p:menuitem value="Configuracion" class="fa fa-fw fa-bell-o" action="working"/>
+                                    <!-- <p:menuitem value="Configuracion" icon="pi pi-fw pi-file"/> -->
                                 </p:submenu>
                             </p:submenu>
 
                             <p:submenu label="Configuracion" icon="pi pi-cog">
                                 <p:submenu label="Sesion" icon="pi pi-fw pi-cog">
-                                    <p:menuitem value="contrasenha" action="usuarios_pass" icon="pi pi-fw pi-cog"/>
+                                    <p:menuitem value="Configuracion" class="fa fa-fw fa-cog" action="usuarios_pass"/>
+                                    <!-- <p:menuitem value="contrasenha" action="usuarios_pass" icon="pi pi-fw pi-cog"/> -->
                                 </p:submenu>
                             </p:submenu>
                             
@@ -93,34 +98,42 @@
                         <h:form>
                             
                             <p:menu>
-                                <p:submenu label="Planificación" rendered="#{rolBean.mostrarMenuActividades()}">
-                                    <p:menuitem value="Proyectos" rendered="#{rolBean.mostrarMenuProyecto()}" action="proyectos" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Incidentes" rendered="#{rolBean.mostrarMenuIncidente()}" action="incidente" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Entregables" rendered="#{rolBean.mostrarMenuEntregable()}" action="entregable" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Tareas" rendered="#{rolBean.mostrarMenuTarea()}" action="tarea" icon="pi pi-refresh"/>
+                                <p:submenu label="Planificacion" rendered="#{rolBean.mostrarMenuActividades()}">
+                                    <p:menuitem value="Proyectos" action="proyectos" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" action="incidente" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas de Incidentes" action="tareaIncidentes" />
+                                    <p:menuitem value="Entregables" action="entregable" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas de Entregables" action="tareaEntregables" />
                                 </p:submenu>
-                                 <p:submenu label="Seguimiento" rendered="#{rolBean.mostrarMenuActividades()}">                                   
-                                    <p:menuitem value="Tareas Diarias" rendered="#{rolBean.mostrarMenuTareaAnalista()}" action="tareas_diarias" icon="pi pi-refresh"/>
+                                <p:submenu label="Seguimiento" rendered="#{rolBean.mostrarMenuActividades()}">                                   
+                                    <p:menuitem value="Tareas de Incidentes" action="tareas_diarias_Incidentes" />
+                                    <p:menuitem value="Tareas de Proyectos" action="tareas_diarias_Proyectos" />
                                 </p:submenu>
                                 <p:submenu label="Gestion" rendered="#{rolBean.mostrarMenuGestion()}">
                                     <p:menuitem value="Personas" action="persona" ajax="false" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Usuarios" action="usuarios" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Roles" action="roles" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Permisos" action="permisos" icon="pi pi-refresh"/>                                    
+                                    <p:menuitem value="Usuarios" action="usuarios" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Roles" action="roles" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Permisos" action="permisos" ajax="false" icon="pi pi-refresh"/>                                    
                                 </p:submenu>
                                 <p:submenu label="Parametrizacion" rendered="#{rolBean.mostrarMenuParametrizacion()}">
-                                    <p:menuitem value="Ambiente" action="ambiente" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Area" action="area" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Complejidad" action="complejidad" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Estados" action="estado" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Nacionalidades" action="nacionalidad" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Prioridades" action="prioridad" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Segmentos" action="segmento" icon="pi pi-refresh"/>
-                                    <p:menuitem value="Servicios" action="servicio" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Ambiente" action="ambiente" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Area" action="area" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Complejidad" action="complejidad" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Estados" action="estado" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Nacionalidades" action="nacionalidad" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Prioridades" action="prioridad" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Segmentos" action="segmento" ajax="false" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Servicios" action="servicio" ajax="false" icon="pi pi-refresh"/>
+                                </p:submenu>
+                                <p:submenu label="Monitoreo y Control" rendered="#{rolBean.mostrarMenuMonitoreo()}">
+                                    <p:menuitem value="Proyectos" action="monitoreoProyecto" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Incidentes" action="monitoreoIncidente" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Entregabbles" action="monitoreoEntregable" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Tareas" action="monitoreoTarea" icon="pi pi-refresh"/>
                                 </p:submenu>
                                 <p:submenu label="Informes" rendered="#{rolBean.mostrarMenuInformes()}">
-                                    <p:menuitem value="Consolidados " url="http://www.primefaces.org" icon="pi pi-refresh"/>
-                                    <p:menuitem value=" Generales" icon="pi pi-refresh"/>
+                                    <p:menuitem value="Consolidados" action="working" icon="pi pi-refresh"/>
+                                    <p:menuitem value=" Generales" action="working" icon="pi pi-refresh"/>
                                 </p:submenu>
                             </p:menu>
                         </h:form>
@@ -148,14 +161,14 @@
             </div>
             <div style="float: right;">
                 <footer>
-                    <div style="text-decoration: #893be3" >
+                    <div style="text-decoration: #4e555b" >
 
                     </div>
                 </footer>
             </div>
         </div>
         <h:outputScript name="js/popper.min.js" />
-        <h:outputScript name="bootstrap/js/bootstrap.min.js" />
+        <h:outputScript  name="bootstrap/js/bootstrap.min.js" />
         <h:outputScript name="js/feather.min.js"/>
     </h:body>
 </html>

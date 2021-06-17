@@ -36,17 +36,20 @@ import javax.validation.constraints.Size;
     , @NamedQuery(name = "Incidente.findById", query = "SELECT i FROM Incidente i WHERE i.id = :id")
     , @NamedQuery(name = "Incidente.findByNombre", query = "SELECT i FROM Incidente i WHERE i.nombre = :nombre")
     , @NamedQuery(name = "Incidente.findByDescripcion", query = "SELECT i FROM Incidente i WHERE i.descripcion = :descripcion")
+    /*, @NamedQuery(name = "Incidente.findByComplejidad", query = "SELECT i FROM Incidente i WHERE i.complejidad = :complejidad")*/
     , @NamedQuery(name = "Incidente.findByFechaInicio", query = "SELECT i FROM Incidente i WHERE i.fechaInicio = :fechaInicio")
     , @NamedQuery(name = "Incidente.findByFechaInicioEstimado", query = "SELECT i FROM Incidente i WHERE i.fechaInicioEstimado = :fechaInicioEstimado")
     , @NamedQuery(name = "Incidente.findByFechaFin", query = "SELECT i FROM Incidente i WHERE i.fechaFin = :fechaFin")
-    , @NamedQuery(name = "Incidente.findByFechaFinEstimado", query = "SELECT i FROM Incidente i WHERE i.fechaFinEstimado = :fechaFinEstimado")})
+    , @NamedQuery(name = "Incidente.findByFechaFinEstimado", query = "SELECT i FROM Incidente i WHERE i.fechaFinEstimado = :fechaFinEstimado")
+    /*, @NamedQuery(name = "Incidente.findByPrioridad", query = "SELECT i FROM Incidente i WHERE i.prioridad = :prioridad")
+    , @NamedQuery(name = "Incidente.findByEstado", query = "SELECT i FROM Incidente i WHERE i.estado = :estado")*/
+})
 public class Incidente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -55,12 +58,14 @@ public class Incidente implements Serializable {
     @Size(max = 200)
     @Column(name = "descripcion", length = 200)
     private String descripcion;
+    @Size(max = 50)
+    /*@Column(name = "complejidad", length = 50)
+    private String complejidad;*/
     @JoinColumn(name = "id_complejidad", referencedColumnName = "id")
     @ManyToOne
-    /*private Complejidad idComplejidad;*/
+    private Complejidad idComplejidad;
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "fecha_inicio", nullable = false)
+    @Column(name = "fecha_inicio")
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
     @Basic(optional = false)
@@ -69,15 +74,20 @@ public class Incidente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicioEstimado;
     @Basic(optional = false)
-    /*@NotNull*/
-    @Column(name = "fecha_fin", nullable = false)
+    @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha_fin_estimado", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date fechaFinEstimado;   
+    private Date fechaFinEstimado;
+   /* @Size(max = 100)
+    @Column(name = "prioridad", length = 100)
+    private String prioridad;
+    @Size(max = 100)
+    @Column(name = "estado", length = 100)
+    private String estado;*/
     @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne
     private Estado idEstado;
@@ -90,20 +100,20 @@ public class Incidente implements Serializable {
     @JoinColumn(name = "id_servicio", referencedColumnName = "id")
     @ManyToOne
     private Servicio idServicio;
+    @JoinColumn(name = "id_tarea", referencedColumnName = "id")
+    @ManyToOne
+    private Tarea idTarea;
     @JoinColumn(name = "id_reportador", referencedColumnName = "codigo_humano")
     @ManyToOne
     private Usuario idReportador;
     @OneToMany(mappedBy = "idIncidente")
     private List<Tarea> tareaList;
-    @Column(name = "activo", nullable = false)
-    private Integer activo;
 
     public Incidente() {
     }
 
     public Incidente(Integer id) {
         this.id = id;
-        this.activo = 1;
     }
 
     public Incidente(Integer id, Date fechaInicio, Date fechaInicioEstimado, Date fechaFin, Date fechaFinEstimado) {
@@ -112,7 +122,6 @@ public class Incidente implements Serializable {
         this.fechaInicioEstimado = fechaInicioEstimado;
         this.fechaFin = fechaFin;
         this.fechaFinEstimado = fechaFinEstimado;
-        this.activo = 1;
     }
 
     public Integer getId() {
@@ -139,6 +148,22 @@ public class Incidente implements Serializable {
         this.descripcion = descripcion;
     }
 
+   /* public String getComplejidad() {
+        return complejidad;
+    }
+
+    public void setComplejidad(String complejidad) {
+        this.complejidad = complejidad;
+    }*/
+
+    public Complejidad getIdComplejidad() {
+        return idComplejidad;
+    }
+
+    public void setIdComplejidad(Complejidad idComplejidad) {
+        this.idComplejidad = idComplejidad;
+    }
+    
     public Date getFechaInicio() {
         return fechaInicio;
     }
@@ -171,6 +196,22 @@ public class Incidente implements Serializable {
         this.fechaFinEstimado = fechaFinEstimado;
     }
 
+  /*  public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }*/
+
     public Estado getIdEstado() {
         return idEstado;
     }
@@ -201,6 +242,14 @@ public class Incidente implements Serializable {
 
     public void setIdServicio(Servicio idServicio) {
         this.idServicio = idServicio;
+    }
+
+    public Tarea getIdTarea() {
+        return idTarea;
+    }
+
+    public void setIdTarea(Tarea idTarea) {
+        this.idTarea = idTarea;
     }
 
     public Usuario getIdReportador() {
@@ -241,15 +290,7 @@ public class Incidente implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Incidente[ id=" + id + " ]";
-    }
-    
-    public Integer getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Integer activo) {
-        this.activo = activo;
+        return "com.mycompany.entidadessigati.Incidente[ id=" + id + " ]";
     }
     
 }

@@ -1,21 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package py.com.sigati.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.donut.DonutChartDataSet;
+import org.primefaces.model.charts.donut.DonutChartModel;
 import py.com.sigati.ejb.ProyectoEJB;
+import py.com.sigati.entities.Entregable;
 import py.com.sigati.entities.Proyecto;
+import py.com.sigati.entities.Tarea;
 import py.com.sigati.entities.Usuario;
 
 /**
@@ -41,7 +40,9 @@ public class ProyectoBean extends AbstractBean implements Serializable {
     private String liderTecnico = "Lider Tecnico";
     private String analista = "Analista";  
     private String soporte = "Soporte";
-    
+    private DonutChartModel donutModel;
+    private DonutChartModel donutModel2;
+
     @EJB
     private ProyectoEJB proyectoEJB;
 
@@ -49,6 +50,9 @@ public class ProyectoBean extends AbstractBean implements Serializable {
     public void init() {
         proyectoSeleccionado = new Proyecto();
         listaProyecto = proyectoEJB.findAll();
+         //createDonutModel();
+         donutModel = new DonutChartModel();
+         donutModel2 = new DonutChartModel();
     }
 
     @Override
@@ -80,7 +84,15 @@ public class ProyectoBean extends AbstractBean implements Serializable {
         editando = true;
         listaProyecto = proyectoEJB.findAll();
     }
-
+    
+    public void actualizarGrafico() {
+        createDonutModel();
+    }
+    
+    public void actualizarGrafico2() {
+        createDonutModel2();
+    }
+    
     @Override
     public void actualizar() {
         try {
@@ -119,8 +131,118 @@ public class ProyectoBean extends AbstractBean implements Serializable {
         this.listaProyecto = listaProyecto;
     }
 
-   
+   public DonutChartModel getDonutModel() {
+        return donutModel;
+    }
 
+    public void setDonutModel(DonutChartModel donutModel) {
+        this.donutModel = donutModel;
+    }
+    
+    //grafico de horas consumidas
+    public void createDonutModel() {
+        donutModel = new DonutChartModel();
+        ChartData data = new ChartData();    
+        int totalHorasEstimadas=0;
+        int totalHorasConsumidas=0;
+        
+        //obtener una tareaa seleccionada
+        List<Tarea> listaTarea = new ArrayList<>();  
+        List<Entregable> listaEntregable= new ArrayList<>();  
+        
+        listaEntregable= proyectoSeleccionado.getEntregableList();
+        
+        //calcular el porcentaje        
+        for (Entregable e:listaEntregable) {
+            listaTarea=e.getTareaList();
+            for (Tarea t:listaTarea) {
+                if (t != null){
+                    totalHorasEstimadas=totalHorasEstimadas+t.getHorasEstimadas();
+                    totalHorasConsumidas=totalHorasConsumidas+t.getHoras();
+                }
+            }
+        }
+        
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(totalHorasEstimadas);
+        values.add(totalHorasConsumidas);
+        //values.add(0);
+        dataSet.setData(values);
+
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgb(255, 99, 132)");
+        bgColors.add("rgb(54, 162, 235)");
+        //bgColors.add("rgb(255, 205, 86)");
+        dataSet.setBackgroundColor(bgColors);
+
+        data.addChartDataSet(dataSet);
+        List<String> labels = new ArrayList<>();
+        labels.add("Consumidas");
+        labels.add("Disponibles");
+        //labels.add("Pendientes");
+        data.setLabels(labels);
+
+        donutModel.setData(data);
+    }
+
+    //Grafico de tareas terminadas
+    public void createDonutModel2() {
+        donutModel2 = new DonutChartModel();
+        ChartData data = new ChartData();    
+        int totalTareasTotales=0;
+        int totalTareasNoIniciadas=0;
+        int totalTareasEnProgreso=0;
+        int totalTareasFinalizadas=0;
+        
+        //obtener una tareaa seleccionada
+        List<Tarea> listaTarea = new ArrayList<>();  
+        List<Entregable> listaEntregable= new ArrayList<>();  
+        
+        listaEntregable= proyectoSeleccionado.getEntregableList();
+        
+        //calcular el porcentaje        
+        for (Entregable e:listaEntregable) {
+            listaTarea=e.getTareaList();
+            for (Tarea t:listaTarea) {
+                if (t != null){
+                    if(t.getIdEstado().getDescripcion().compareTo("No iniciado")==0){
+                        totalTareasNoIniciadas++;
+                    }
+                    if(t.getIdEstado().getDescripcion().compareTo("En progreso")==0){
+                        totalTareasEnProgreso++;
+                    }
+                    if(t.getIdEstado().getDescripcion().compareTo("Finalizado")==0){
+                        totalTareasFinalizadas++;
+                    }
+                    totalTareasTotales++;
+                }
+            }
+        }
+        
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(totalTareasNoIniciadas);
+        values.add(totalTareasEnProgreso);
+        values.add(totalTareasFinalizadas);
+        dataSet.setData(values);
+
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgb(255, 99, 132)");
+        bgColors.add("rgb(54, 162, 235)");
+        bgColors.add("rgb(255, 205, 86)");
+        dataSet.setBackgroundColor(bgColors);
+
+        data.addChartDataSet(dataSet);
+        List<String> labels = new ArrayList<>();
+        labels.add("No iniciadas");
+        labels.add("En Progreso");
+        labels.add("Finalizadas");
+        data.setLabels(labels);
+
+        donutModel2.setData(data);
+    }
+    
     public Proyecto getProyectoSeleccionado() {
         return proyectoSeleccionado;
     }
@@ -176,5 +298,14 @@ public class ProyectoBean extends AbstractBean implements Serializable {
          }    
         return listaProyectosActivos;
     }
+    
+    public DonutChartModel getDonutModel2() {
+        return donutModel2;
+    }
+
+    public void setDonutModel2(DonutChartModel donutModel2) {
+        this.donutModel2 = donutModel2;
+    }
+    
     
 }

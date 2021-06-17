@@ -5,9 +5,13 @@
  */
 package py.com.sigati.ejb;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import py.com.sigati.entities.Incidente;
 import py.com.sigati.entities.Tarea;
 
 /**
@@ -29,6 +33,18 @@ public class TareaEJB extends AbstractFacade<Tarea> {
         super(Tarea.class);
     }
 
+    public List<Tarea> findIncidentesDeTareas(Incidente incidenteSeleccionado) {
+        List<Tarea> lista = new ArrayList<>();
 
+        try{
+            Query q = em.createQuery("Select t from Tarea t where t.idIncidente = :incidente")
+                    .setParameter("incidente", incidenteSeleccionado);
+            lista = q.getResultList();
+                         
+        }catch(Exception e){
+            
+        }
+        return lista;
+    }
     
 }

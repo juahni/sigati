@@ -20,12 +20,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Juahni
+ * @author nelson182py
  */
 @Entity
 @Table(name = "tareas_diarias")
@@ -33,39 +32,33 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "TareasDiarias.findAll", query = "SELECT t FROM TareasDiarias t")
     , @NamedQuery(name = "TareasDiarias.findById", query = "SELECT t FROM TareasDiarias t WHERE t.id = :id")
     , @NamedQuery(name = "TareasDiarias.findByFecha", query = "SELECT t FROM TareasDiarias t WHERE t.fecha = :fecha")
-    , @NamedQuery(name = "TareasDiarias.findByHoras", query = "SELECT t FROM TareasDiarias t WHERE t.horas = :horas")})
+    , @NamedQuery(name = "TareasDiarias.findByHoras", query = "SELECT t FROM TareasDiarias t WHERE t.horas = :horas")
+    , @NamedQuery(name = "TareasDiarias.findByDescripcion", query = "SELECT t FROM TareasDiarias t WHERE t.descripcion = :descripcion")})
 public class TareasDiarias implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
-    @NotNull
-    @Column(name = "fecha", nullable = false)
+    @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @Basic(optional = false)
-    @Column(name = "horas", nullable = false)
-    private Integer horas= 0;
+    @Column(name = "horas")
+    private Integer horas;
+    @Size(max = 2147483647)
+    @Column(name = "descripcion", length = 2147483647)
+    private String descripcion;
     @JoinColumn(name = "id_tarea", referencedColumnName = "id")
     @ManyToOne
     private Tarea idTarea;
- 
-    
+
     public TareasDiarias() {
     }
 
     public TareasDiarias(Integer id) {
         this.id = id;
-    }
-
-    public TareasDiarias(Integer id, Date fecha, Integer horas) {
-        this.id = id;
-        this.fecha = fecha;
-        this.horas = horas;
     }
 
     public Integer getId() {
@@ -82,6 +75,30 @@ public class TareasDiarias implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public Integer getHoras() {
+        return horas;
+    }
+
+    public void setHoras(Integer horas) {
+        this.horas = horas;
+    }
+
+    public Tarea getIdTarea() {
+        return idTarea;
+    }
+
+    public void setIdTarea(Tarea idTarea) {
+        this.idTarea = idTarea;
+    }
+    
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @Override
@@ -106,22 +123,7 @@ public class TareasDiarias implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.TareasDiarias[ id=" + id + " ]";
-    }    
-    
-     public void setHoras(Integer horas) {
-        this.horas = horas;
+        return "com.mycompany.entidadessigati.TareasDiarias[ id=" + id + " ]";
     }
     
-    public Integer getHoras() {
-        return horas;
-    }
-    
-     public Tarea getIdTarea() {
-        return idTarea;
-    }
-
-    public void setIdTarea(Tarea idTarea) {
-        this.idTarea = idTarea;
-    }
 }

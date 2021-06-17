@@ -17,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -36,7 +35,6 @@ public class Estado implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -48,6 +46,8 @@ public class Estado implements Serializable {
     private List<Proyecto> proyectoList;
     @OneToMany(mappedBy = "idEstado")
     private List<Incidente> incidenteList;
+    @OneToMany(mappedBy = "idEstado")
+    private List<Tarea> tareaList;
 
     public Estado() {
     }
@@ -96,6 +96,14 @@ public class Estado implements Serializable {
         this.incidenteList = incidenteList;
     }
 
+    public List<Tarea> getTareaList() {
+        return tareaList;
+    }
+
+    public void setTareaList(List<Tarea> tareaList) {
+        this.tareaList = tareaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -118,7 +126,7 @@ public class Estado implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Estado[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Estado[ id=" + id + " ]";
     }
-
+    
 }

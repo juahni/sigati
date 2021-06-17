@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import org.primefaces.PrimeFaces;
 import py.com.sigati.ejb.PermisoEJB;
 import py.com.sigati.ejb.RolEJB;
+import py.com.sigati.ejb.RolPermisoEJB;
 import py.com.sigati.entities.Permiso;
 import py.com.sigati.entities.Rol;
 import py.com.sigati.entities.RolPermiso;
@@ -46,12 +47,16 @@ public class RolBean extends AbstractBean implements Serializable {
     private String liderTecnico = "Lider Tecnico";
     private String analista = "Analista";  
     private String soporte = "Soporte";
+    private String reportador = "Reportador";
     
     @EJB
     private RolEJB rolEJB;
 
     @EJB
     private PermisoEJB permisoEJB;
+    
+    @EJB
+    private RolPermisoEJB rolPermisoEJB;
     
     @Inject
     LoginBean loginBean;
@@ -62,6 +67,7 @@ public class RolBean extends AbstractBean implements Serializable {
         listaRol = rolEJB.findAll();
         listaPermisosDisponibles = permisoEJB.findAll();
       
+        
     }
 
     @Override
@@ -126,13 +132,14 @@ public class RolBean extends AbstractBean implements Serializable {
     // Puede acceder modificacion y total
     public boolean mostrarNuevo(){        
         Usuario u =  loginBean.getUsuarioLogueado();
+        
         Rol r = u.getIdRol();
-        List<RolPermiso> permisos = r.getRolPermisoList();
+        List<RolPermiso> permisos = rolPermisoEJB.obtenerListaRolPermiso(r);
+        //List<RolPermiso> permisos = r.getRolPermisoList();
         
         for(RolPermiso p:permisos){                 
             if (p != null){
-                if( p.getIdPermiso().getDescripcion().equals(alta) ||
-                    p.getIdPermiso().getDescripcion().equals(alta))
+                if( p.getIdPermiso().getDescripcion().equals(alta))
                 return true;
             }            
         }
@@ -219,7 +226,7 @@ public class RolBean extends AbstractBean implements Serializable {
         return false;
     }
     
-    // Puede acceder ADMIN, PM, LIDERTECNICO
+    // Puede acceder ADMIN, PM, LIDERTECNICO, Soporte y Analista
     public boolean mostrarMenuActividades(){        
         Usuario u =  loginBean.getUsuarioLogueado();
                         
@@ -227,8 +234,24 @@ public class RolBean extends AbstractBean implements Serializable {
            if( u.getIdRol().getDescripcion().equals(admin) ||
                u.getIdRol().getDescripcion().equals(pM) ||
                u.getIdRol().getDescripcion().equals(soporte) ||
-               u.getIdRol().getDescripcion().equals(analista) ||
-               u.getIdRol().getDescripcion().equals(liderTecnico) ){
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista) ){
+               return true;
+           }            
+        }
+        return false;
+    }
+    
+    // Puede acceder ADMIN, PM, LIDERTECNICO, Soporte y Analista
+    public boolean mostrarMenuMonitoreo(){        
+        Usuario u =  loginBean.getUsuarioLogueado();
+                        
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(soporte) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ||
+               u.getIdRol().getDescripcion().equals(analista) ){
                return true;
            }            
         }
@@ -236,26 +259,13 @@ public class RolBean extends AbstractBean implements Serializable {
     }
     
     // Puede acceder ADMIN, PM, LIDERTECNICO
-   public boolean mostrarMenuGestion(){        
-       Usuario u =  loginBean.getUsuarioLogueado();
-                           
-       if (u != null){
-          if( u.getIdRol().getDescripcion().equals(admin)
-             //  u.getIdRol().getDescripcion().equals(pM) ||
-             //  u.getIdRol().getDescripcion().equals(liderTecnico) 
-             ){
-              return true;
-          }            
-       }
-       return false;
-   }
-    
-    // listar en responsable en proyecto, solo los usuarios con roles de pm
-    public boolean mostrarfiltroPm(){        
+    public boolean mostrarMenuGestion(){        
         Usuario u =  loginBean.getUsuarioLogueado();
                              
         if (u != null){
-           if(u.getIdRol().getDescripcion().equals(pM) ){
+           if( u.getIdRol().getDescripcion().equals(admin) ||
+               u.getIdRol().getDescripcion().equals(pM) ||
+               u.getIdRol().getDescripcion().equals(liderTecnico) ){
                return true;
            }            
         }
@@ -274,7 +284,7 @@ public class RolBean extends AbstractBean implements Serializable {
         return false;
     }
     
-    // Puede acceder ADMIN, PM, LIDERTECNICO, Soporte y ANALISTA
+    // Puede acceder ADMIN, PM, LIDERTECNICO, Soporte, ANALISTA y Reportador
     public boolean mostrarMenuInformes(){        
         Usuario u =  loginBean.getUsuarioLogueado();
                 
@@ -283,77 +293,11 @@ public class RolBean extends AbstractBean implements Serializable {
                u.getIdRol().getDescripcion().equals(pM) ||
                u.getIdRol().getDescripcion().equals(liderTecnico) ||
                u.getIdRol().getDescripcion().equals(soporte) ||
-               u.getIdRol().getDescripcion().equals(analista) ){
+               u.getIdRol().getDescripcion().equals(analista)||
+               u.getIdRol().getDescripcion().equals(reportador)  ){
                return true;
            }            
         }
         return false;
     }
-    
-     public boolean mostrarMenuIncidente(){        
-        Usuario u =  loginBean.getUsuarioLogueado();
-                
-        if (u != null){
-           if( u.getIdRol().getDescripcion().equals(admin) ||
-               u.getIdRol().getDescripcion().equals(soporte)){
-               return true;
-           }            
-        }
-        return false;
-    }
-     
-     public boolean mostrarMenuProyecto(){        
-        Usuario u =  loginBean.getUsuarioLogueado();
-                
-        if (u != null){
-           if( u.getIdRol().getDescripcion().equals(admin) ||
-               u.getIdRol().getDescripcion().equals(pM) ||
-               u.getIdRol().getDescripcion().equals(liderTecnico) ||
-               u.getIdRol().getDescripcion().equals(analista)) {
-               return true;
-           }            
-        }
-        return false;
-    }
-     
-     public boolean mostrarMenuEntregable(){        
-        Usuario u =  loginBean.getUsuarioLogueado();
-                
-        if (u != null){
-           if( u.getIdRol().getDescripcion().equals(admin) ||
-               u.getIdRol().getDescripcion().equals(pM) ||
-               u.getIdRol().getDescripcion().equals(liderTecnico) ||
-               u.getIdRol().getDescripcion().equals(analista)) {
-               return true;
-           }            
-        }
-        return false;
-    }
-     
-     public boolean mostrarMenuTarea(){        
-        Usuario u =  loginBean.getUsuarioLogueado();
-                
-        if (u != null){
-           if( u.getIdRol().getDescripcion().equals(admin) ||
-               u.getIdRol().getDescripcion().equals(pM) ||
-               u.getIdRol().getDescripcion().equals(liderTecnico) ||
-               u.getIdRol().getDescripcion().equals(soporte)) {
-               return true;
-           }            
-        }
-        return false;
-    }
-     
-     public boolean mostrarMenuTareaAnalista(){        
-        Usuario u =  loginBean.getUsuarioLogueado();
-                
-        if (u != null){
-           if( u.getIdRol().getDescripcion().equals(admin) ||
-               u.getIdRol().getDescripcion().equals(analista)) {
-               return true;
-           }            
-        }
-        return false;
-    }
-    
 }

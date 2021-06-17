@@ -17,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -36,7 +35,6 @@ public class Servicio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -108,7 +106,7 @@ public class Servicio implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Servicio[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Servicio[ id=" + id + " ]";
     }
     
 }

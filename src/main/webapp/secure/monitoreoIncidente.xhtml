@@ -9,7 +9,7 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Administración de Incidentes
+                Monitoreo y Control de Incidentes
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromIncidentes">
@@ -76,16 +76,15 @@
                         </p:column>                   
                         <p:column headerText="Acción">
                             <center>
-                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbIncidentes').show()"
-                                                 rendered="#{incidenteBean.editarIncidente()}" update="formDlgIncidentes" action="#{incidenteBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{inc}" target="#{incidenteBean.incidenteSeleccionado}" />
-                                    <f:setPropertyActionListener value="#{true}" target="#{incidenteBean.editando}" />
+                                <p:commandButton update="formDlgGraficoIncidentes" oncomplete="PF('graficoDialog').show()" action="#{incidenteBean.actualizarGrafico}"
+                                                 icon="pi pi-chart-bar" title="View">
+                                    <f:setPropertyActionListener value="#{inc}"
+                                                                 target="#{incidenteBean.incidenteSeleccionado}"/>
                                 </p:commandButton>
-
-                                <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                  rendered="#{incidenteBean.editarIncidente()}" action="#{incidenteBean.eliminar}" update="fromIncidentes:dtIncidentes formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{inc}" target="#{incidenteBean.incidenteSeleccionado}" />
-                                    <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
+                                <p:commandButton update="formDlgGraficoIncidentes2" oncomplete="PF('graficoDialog2').show()" action="#{incidenteBean.actualizarGrafico2}"
+                                                 icon="pi pi-spinner" title="View">
+                                    <f:setPropertyActionListener value="#{inc}"
+                                                                 target="#{incidenteBean.incidenteSeleccionado}"/>
                                 </p:commandButton>
                             </center>
                         </p:column>
@@ -93,7 +92,7 @@
                     </p:dataTable> 
 
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Incidente" rendered="#{incidenteBean.agregarIncidente()}" ajax="true" icon="fa fa-plus-circle"  
+                        <p:commandButton value="Correcciones" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbIncidentes').show();"
                                          actionListener="#{incidenteBean.agregar()}"
                                          update="formDlgIncidentes">
@@ -160,7 +159,19 @@
                                         <f:selectItems value="#{segmentoBean.listaSegmento}" var="segmento" itemLabel="#{segmento.descripcion}" itemValue="#{segmento}" />
                                     </p:selectOneMenu>
                                 </div>
-                            </div>   
+                            </div>  
+
+                            <div class="form-group row">
+                                <label for="selResponsable" class="col-sm-2 col-form-label">Responsable</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selResponsable" value="#{incidenteBean.incidenteSeleccionado.idReportador}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{usuarioBean.listaUsuarios}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>  
 
                             <div class="form-group row">
                                 <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
@@ -197,18 +208,6 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-                                                       
-                            <div class="form-group row">
-                                <label for="selReportador" class="col-sm-2 col-form-label">Reportador</label>
-                                <div class="col-sm-10">
-                                    <p:selectOneMenu id="selReportador" value="#{incidenteBean.incidenteSeleccionado.idReportador}" 
-                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
-                                                     >
-                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{usuarioBean.listaSoporte}" var="usuario" itemLabel="#{usuario.usuario}" itemValue="#{usuario}" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div> 
                         </div>
 
                         <center>
@@ -231,7 +230,23 @@
 
                         </center>
                     </h:form>
-                </p:dialog>  
+                </p:dialog> 
+                <p:dialog header="Estado de avance de Iniciativa (Horas)" widgetVar="graficoDialog" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoIncidentes">    
+                        <div class="card">
+                            <p:donutChart model="#{incidenteBean.donutModel}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+                <p:dialog header="Estado de avance de Iniciativa (Tareas)" widgetVar="graficoDialog2" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoIncidentes2">    
+                        <div class="card">
+                            <p:donutChart model="#{incidenteBean.donutModel2}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
             </ui:define>    
 
         </ui:composition>    

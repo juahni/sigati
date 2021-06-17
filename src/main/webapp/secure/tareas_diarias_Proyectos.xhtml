@@ -9,11 +9,11 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Carga de tareas diarias
+                Carga de tareas diarias para Entregables
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromTareas">
-                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareasDiariasBean.listaTareasPorAnalistas}" var="tar" rows="10" rowKey="#{tar.id}"
+                    <p:dataTable id="dtTareas" widgetVar="wbTable" value="#{tareasDiariasBean.listaTareasPorAnalistasEntregables}" var="tar" rows="10" rowKey="#{tar.id}"
                                  paginator="true" paginatorPosition="bottom">
 
                         <f:facet name="header" >
@@ -26,58 +26,77 @@
                             </div>
                         </f:facet>
                         
-                        <p:column headerText="Nombre" filterBy="#{tar.idTarea.nombre}" filterMatchMode="contains">
-                            <p:outputLabel value="#{tar.idTarea.nombre}" />
-                        </p:column>
-                 
-                        <p:column headerText="Estado" filterBy="#{tar.idTarea.idEstado.descripcion}" filterMatchMode="contains">
-                            <center>
-                                <div class="estado-#{tar.idTarea.idEstado.descripcion}">#{tar.idTarea.idEstado.descripcion}</div>
-                            </center>
-                        </p:column>
+                        <p:column headerText="Entregable" filterBy="#{tar.idEntregable.nombre}" filterMatchMode="contains">
+                            <p:outputLabel value="#{tar.idEntregable.nombre}" />
+                        </p:column> 
                         
-                        <p:column headerText="Fecha" sortBy="#{tar.fecha}">
+                        <p:column headerText="Tarea" filterBy="#{tar.id}" filterMatchMode="contains">
+                            <p:outputLabel value="#{tar.nombre}" />
+                        </p:column> 
+                        
+                        <p:column headerText="Estado" sortBy="#{tar.idEstado.descripcion}">
                             <center>
-                                <p:outputLabel value="#{tar.fecha}" >
+                                <p:outputLabel value="#{tar.idEstado.descripcion}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </p:outputLabel>
                             </center>
                         </p:column>
                         
-                        <p:column headerText="Horas" sortBy="#{tar.horas}">
+                        <p:column headerText="Fecha de Finalizacion" sortBy="#{tar.fechaFinEstimado}">
+                            <center>
+                                <p:outputLabel value="#{tar.fechaFinEstimado}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                        
+                        <p:column headerText="Horas Estimadas" sortBy="#{tar.horasEstimadas}">
+                            <center>
+                                <p:outputLabel value="#{tar.horasEstimadas}" >
+                                 
+                                </p:outputLabel>
+                            </center>
+                        </p:column>
+                                   
+                        <p:column headerText="Horas Consumudias" sortBy="#{tar.horas}">
                             <center>
                                 <p:outputLabel value="#{tar.horas}" >
                                  
                                 </p:outputLabel>
                             </center>
                         </p:column>
-                                                            
+                        
                         <p:column headerText="Acción">
                             <center>
-                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbTareas').show()"
-                                                 update="formDlgTareas" action="#{tareasDiariasBean.antesActualizar}">
+                                
+                                <p:commandButton icon="fa fa-plus-circle" title="Agregar" ajax="true" 
+                                         oncomplete="PF('wbTareas').show();"
+                                         actionListener="#{tareasDiariasBean.agregar()}"
+                                         update="formDlgTareas">
                                     <f:setPropertyActionListener value="#{tar}" target="#{tareasDiariasBean.tareaSeleccionado}" />
                                     <f:setPropertyActionListener value="#{true}" target="#{tareasDiariasBean.editando}" />
                                 </p:commandButton>
-
-                                <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                  action="#{tareasDiariasBean.eliminar}" update="fromTareas:dtTareas formGrowl:growl">
+                                
+                                <p:commandButton icon="fa fa-search Fs100 Red" title="Editar" ajax="true"
+                                                 oncomplete="PF('wbTareas').show()"
+                                                 update="formDlgTareas" action="#{tareasDiariasBean.antesActualizar}">
                                     <f:setPropertyActionListener value="#{tar}" target="#{tareasDiariasBean.tareaSeleccionado}" />
-                                    <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
+                                    <f:setPropertyActionListener value="#{true}" target="#{tareasDiariasBean.editando}" />
                                 </p:commandButton>
                             </center>
                         </p:column>
 
                     </p:dataTable> 
-
+                    
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Tarea" ajax="true" icon="fa fa-plus-circle"  
+                        <p:commandButton value="Agregar Tarea Diaria" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbTareas').show();"
                                          actionListener="#{tareasDiariasBean.agregar()}"
                                          update="formDlgTareas">
                             <f:setPropertyActionListener value="#{false}" target="#{tareasDiariasBean.editando}" />
                         </p:commandButton>
-                    </div>
+                    </div> 
+                    
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
@@ -85,21 +104,22 @@
                 </h:form>
 
                 <p:dialog id="dlgTareas" widgetVar="wbTareas" closeOnEscape="true" closable="true" header="Tarea"
-                          width="950" height="250" modal="true"> 
+                          width="1000" height="380" modal="true"> 
                     <h:form id="formDlgTareas">
                         <div class="bd-example">
+                            
                             <div class="form-group row">
                                 <label for="selTarea" class="col-sm-2 col-form-label">Tarea</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="selEntregable" value="#{tareasDiariasBean.tareaSeleccionado.idTarea}" 
+                                    <p:selectOneMenu id="selEntregable" value="#{tareasDiariasBean.tarea}" 
                                                      converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
                                                      >
                                         <f:selectItem itemLabel="Seleccionar" itemValue=""/>
-                                        <f:selectItems value="#{tareaBean.listaTareasPorAnalistas}" var="tarea" itemLabel="#{tarea.descripcion}" itemValue="#{tarea}" />
+                                        <f:selectItems value="#{tareasDiariasBean.listaTareasPorAnalistasEntregables}" var="tarea" itemLabel="#{tarea.nombre}" itemValue="#{tarea}" />
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-
+                            
                             <div class="form-group row">
                                 <label for="horas" class="col-sm-2 col-form-label">Horas</label>
                                 <div class="col-sm-10">
@@ -115,17 +135,37 @@
                                                 value="#{tareasDiariasBean.tareaSeleccionado.fecha}"/>
                                 </div>
                             </div> 
-
-                            <div class="form-group row">
+                            
+                             <div class="form-group row">
+                                <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
+                                <div class="col-sm-10">
+                                    <p:inputText id="descripcion" styleClass="form-control" required="false"
+                                                 value="#{tareasDiariasBean.tareaSeleccionado.descripcion}"/>
+                                </div>
+                            </div>
+                            
+                             <div class="form-group row">
+                                <label for="selEstado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <p:selectOneMenu id="selEstados" value="#{tareasDiariasBean.estadoSeleccionado}" 
+                                                     converter="omnifaces.SelectItemsConverter" style="width: 760px !important"
+                                                     >
+                                        <f:selectItem itemLabel="Seleccionar" itemValue=""/>
+                                        <f:selectItems value="#{tareasDiariasBean.listaEstadosPorTarea}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            
+                            <!-- <div class="form-group row">
                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="option" value="#{selectOneMenuView.selectedOption}">
+                                    <p:selectOneMenu id="option" value="#{tareasDiariasBean.estado}">
                                         <f:selectItem itemLabel="Selecionar" itemValue=""/>
                                         <f:selectItem itemLabel="En Progreso" itemValue="En Progreso"/>
                                         <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>                                                                   
                                     </p:selectOneMenu>
                                 </div>
-                            </div>
+                            </div> -->
                                                                                                         
                         </div>
 
@@ -149,7 +189,8 @@
 
                         </center>
                     </h:form>
-                </p:dialog>  
+                </p:dialog>
+                
             </ui:define>    
 
         </ui:composition>    

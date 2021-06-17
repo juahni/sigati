@@ -45,7 +45,6 @@ public class Proyecto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -197,7 +196,7 @@ public class Proyecto implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Proyecto[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Proyecto[ id=" + id + " ]";
     }
     
 }

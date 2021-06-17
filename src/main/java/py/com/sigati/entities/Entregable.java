@@ -46,7 +46,6 @@ public class Entregable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -66,7 +65,7 @@ public class Entregable implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicioEstimado;
     @Basic(optional = false)
-     /*@NotNull*/
+    @NotNull
     @Column(name = "fecha_fin", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
@@ -234,7 +233,7 @@ public class Entregable implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Entregable[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Entregable[ id=" + id + " ]";
     }
     
 }

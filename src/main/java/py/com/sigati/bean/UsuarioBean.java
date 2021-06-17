@@ -23,7 +23,6 @@ import py.com.sigati.util.PasswordUtility;
 import py.com.sigati.ejb.RolEJB;
 import py.com.sigati.ejb.UsuarioEJB;
 import py.com.sigati.entities.Area;
-import py.com.sigati.entities.Incidente;
 import py.com.sigati.entities.Persona;
 import py.com.sigati.entities.RolPermiso;
 /**
@@ -43,8 +42,6 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 	private AreaEJB areaEJB;
         
 	private List<Usuario> listaUsuarios = new ArrayList<>();
-        public List<Usuario> listaAnalistas;
-        public List<Usuario> listapms;
 	private Usuario usuarioSeleccionado;
 	private Rol rolSeleccionado;
 	private List<Rol> listaRoles = new ArrayList<>();
@@ -52,6 +49,9 @@ public class UsuarioBean extends AbstractBean implements Serializable {
     	private List<Persona> listaPersonas = new ArrayList<>();
         private Area areaSeleccionada;
         private List<Area> listaAreas = new ArrayList<>();
+        public List<Usuario> listapms;
+        public List<Usuario> listaAnalistas;
+        public List<Usuario> listaSoporte;
         private boolean editando;
         private String alta = "alta";
         private String baja = "baja";
@@ -61,11 +61,12 @@ public class UsuarioBean extends AbstractBean implements Serializable {
         private String informes = "descarga"; 
         private String contrasenhaActual="";
         private String contrasenhaNueva="";
-        private String contrasenhaNuevaConfirmada = "";
-        private String contrasenhaAEncriptar = "12345";
+        private String contrasenhaNuevaConfirmada="";
+        private String contrasenhaAEncriptar="12345";
         private String pM = "Project Manager";
         private String analista = "Analista";
-
+        private String soporte = "Soporte";
+        
 	@PostConstruct
 	public void init() {
 		listaUsuarios = usuarioEJB.findAll();
@@ -133,7 +134,7 @@ public class UsuarioBean extends AbstractBean implements Serializable {
                 if((PasswordUtility.check(contrasenhaActual, pass))&&
                 (contrasenhaNueva.compareTo(contrasenhaNuevaConfirmada)==0)){
                     antesActualizar();
-                    usuarioSeleccionado.setPassword(pass);
+                    usuarioSeleccionado.setContrasenha(pass);
                     actualizar();
                     infoMessage("Se actualizó correctamente.");
                 }
@@ -183,8 +184,7 @@ public class UsuarioBean extends AbstractBean implements Serializable {
         
         for(RolPermiso p:permisos){                 
             if (p != null){
-                if( p.getIdPermiso().getDescripcion().equals(alta) ||
-                    p.getIdPermiso().getDescripcion().equals(alta))
+                if( p.getIdPermiso().getDescripcion().equals(alta))
                 return true;
             }            
         }
@@ -298,22 +298,9 @@ public class UsuarioBean extends AbstractBean implements Serializable {
 
 	public void setEditando(boolean editando) {
 		this.editando = editando;
-	}       
+	}
         
-        public List<Usuario> getListaAnalistas() {
-        listaAnalistas = new ArrayList<>();
-        listaUsuarios = usuarioEJB.findAll();
-         for (Usuario  u:listaUsuarios) {
-            if(u != null){
-                if(u.getIdRol().getDescripcion().equals(analista) ){
-                    listaAnalistas.add(u);
-                }       
-            }
-         }    
-        return listaAnalistas;
-    }
-        
-    public List<Usuario> getListaPMs() {
+        public List<Usuario> getListaPMs() {
         listapms = new ArrayList<>();
         listaUsuarios = usuarioEJB.findAll();
          for (Usuario  u:listaUsuarios) {
@@ -322,7 +309,35 @@ public class UsuarioBean extends AbstractBean implements Serializable {
                     listapms.add(u);
                 }       
             }
-         }    
+        }
         return listapms;
     }
+
+    public List<Usuario> getListaAnalistas() {
+        listaAnalistas = new ArrayList<>();
+        listaUsuarios = usuarioEJB.findAll();
+        for (Usuario u : listaUsuarios) {
+            if (u != null) {
+                if (u.getIdRol().getDescripcion().equals(analista)) {
+                    listaAnalistas.add(u);
+                }
+            }
+        }
+        return listaAnalistas;
+    }
+    
+    public List<Usuario> getListaSoporte() {
+        listaSoporte = new ArrayList<>();
+        listaUsuarios = usuarioEJB.findAll();
+        
+        for (Usuario u : listaUsuarios) {
+            if (u != null) {
+                if (u.getIdRol().getDescripcion().equals(soporte)) {
+                    listaSoporte.add(u);
+                }
+            }
+        }
+        return listaSoporte;
+    }
+
 }

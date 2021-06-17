@@ -36,7 +36,7 @@ public class Area implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    /*@NotNull*/
+    @NotNull
     @Column(name = "id", nullable = false)
     private Integer id;
     @Size(max = 100)
@@ -98,7 +98,7 @@ public class Area implements Serializable {
 
     @Override
     public String toString() {
-        return "py.com.sigati.entities.Area[ id=" + id + " ]";
+        return "com.mycompany.entidadessigati.Area[ id=" + id + " ]";
     }
     
 }

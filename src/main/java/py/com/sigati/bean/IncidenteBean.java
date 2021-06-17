@@ -15,8 +15,14 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.donut.DonutChartDataSet;
+import org.primefaces.model.charts.donut.DonutChartModel;
 import py.com.sigati.ejb.IncidenteEJB;
+import py.com.sigati.ejb.TareaEJB;
 import py.com.sigati.entities.Incidente;
+import py.com.sigati.entities.Tarea;
+import py.com.sigati.entities.Usuario;
 
 /**
  *
@@ -28,15 +34,24 @@ public class IncidenteBean extends AbstractBean implements Serializable {
 
     private List<Incidente> listaIncidente = new ArrayList<>();
     private Incidente incidenteSeleccionado;
+    private DonutChartModel donutModel;
+    private DonutChartModel donutModel2;
     private boolean editando;
+    private String admin = "Administrador";
+    private String pM = "Project Manager";
 
     @EJB
     private IncidenteEJB incidenteEJB;
-
+    @EJB
+    private TareaEJB tareaEJB;
+    
     @PostConstruct
     public void init() {
         incidenteSeleccionado = new Incidente();
         listaIncidente = this.getListaIncidenteActivos();
+         //createDonutModel();
+         donutModel = new DonutChartModel();
+         donutModel2 = new DonutChartModel();
     }
 
     @Override
@@ -86,7 +101,7 @@ public class IncidenteBean extends AbstractBean implements Serializable {
     public void eliminar() {
         try {
             //incidenteEJB.remove(incidenteSeleccionado);
-            incidenteSeleccionado.setActivo(0);
+            // cambiar incidenteSeleccionado.setActivo(0);
             incidenteEJB.edit(incidenteSeleccionado);
             infoMessage("Eliminado correctamente");
             listaIncidente = this.getListaIncidenteActivos();
@@ -95,7 +110,15 @@ public class IncidenteBean extends AbstractBean implements Serializable {
         }
 
     }
-
+    
+    public void actualizarGrafico() {
+        createDonutModel();
+    }
+    
+    public void actualizarGrafico2() {
+        createDonutModel2();
+    }
+    
     public void agregar() {
         resetearValores();
         listaIncidente = this.getListaIncidenteActivos();
@@ -109,8 +132,6 @@ public class IncidenteBean extends AbstractBean implements Serializable {
         this.listaIncidente = listaIncidente;
     }
 
-   
-
     public Incidente getIncidenteSeleccionado() {
         return incidenteSeleccionado;
     }
@@ -119,8 +140,6 @@ public class IncidenteBean extends AbstractBean implements Serializable {
         this.incidenteSeleccionado = incidenteSeleccionado;
     }
 
-   
-
     public boolean isEditando() {
         return editando;
     }
@@ -128,17 +147,166 @@ public class IncidenteBean extends AbstractBean implements Serializable {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
+
+    public DonutChartModel getDonutModel() {
+        return donutModel;
+    }
+
+    public void setDonutModel(DonutChartModel donutModel) {
+        this.donutModel = donutModel;
+    }
     
-     public List<Incidente> getListaIncidenteActivos() {
+    public DonutChartModel getDonutModel2() {
+        return donutModel2;
+    }
+    
+    public void setDonutModel2(DonutChartModel donutModel) {
+        this.donutModel2 = donutModel;
+    }
+    
+    public List<Incidente> getListaIncidenteActivos() {
          
         List<Incidente> listaIncidenteActivos = new ArrayList<>();
         listaIncidente = incidenteEJB.findAll();
         for (Incidente i : listaIncidente) {
-            if(i.getActivo().equals(1)){
-                listaIncidenteActivos.add(i);
-            }       
+            // cambiar if(i.getActivo().equals(1)){
+            // cambiar     listaIncidenteActivos.add(i);
+            // cambiar }       
         }
+        listaIncidenteActivos=listaIncidente;
         return listaIncidenteActivos;
     }
 
+     public void createDonutModel() {
+         
+        //obtener una tareaa seleccionada
+        List<Tarea> listaTarea = new ArrayList<>();   
+        //listaTarea = incidenteSeleccionado.getTareaList();
+        //incidenteSeleccionado = incidenteEJB.find(incidenteSeleccionado.getId());
+        listaTarea =tareaEJB.findIncidentesDeTareas(incidenteSeleccionado );
+        
+        int totalHorasEstimadas=0;
+        int totalHorasConsumidas=0;
+        int totalHorasDisponibles=0;
+
+        //calcular el porcentaje        
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                totalHorasEstimadas=totalHorasEstimadas+t.getHorasEstimadas();
+                totalHorasConsumidas=totalHorasConsumidas+t.getHoras();
+            }
+        }
+        totalHorasDisponibles=totalHorasEstimadas-totalHorasConsumidas;
+        //dibujar
+        donutModel = new DonutChartModel();
+        ChartData data = new ChartData();
+
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(totalHorasDisponibles);
+        values.add(totalHorasConsumidas);
+        values.add(0);
+        dataSet.setData(values);
+
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgb(132, 255, 99)"); //verde
+        bgColors.add("rgb(54, 162, 235)"); //auzl
+        dataSet.setBackgroundColor(bgColors);
+
+        data.addChartDataSet(dataSet);
+        List<String> labels = new ArrayList<>();
+        labels.add("Disponibles");
+        labels.add("Comsumidas");
+        data.setLabels(labels);
+
+        donutModel.setData(data);
+    }
+     
+    public void createDonutModel2() {
+         
+        //obtener una tareaa seleccionada
+        List<Tarea> listaTarea = new ArrayList<>();   
+        //listaTarea = incidenteSeleccionado.getTareaList();
+        //incidenteSeleccionado = incidenteEJB.find(incidenteSeleccionado.getId());
+        listaTarea =tareaEJB.findIncidentesDeTareas(incidenteSeleccionado );
+        
+        int totalTareasTotales=0;
+        int totalTareasNoIniciadas=0;
+        int totalTareasEnProgreso=0;
+        int totalTareasFinalizadas=0;
+        int totalTareasCanceladas=0;
+        //calcular el porcentaje        
+        for (Tarea t:listaTarea) {
+            if (t != null){
+                if(t.getIdEstado().getDescripcion().compareTo("No iniciado")==0){
+                        totalTareasNoIniciadas++;
+                    }
+                    if(t.getIdEstado().getDescripcion().compareTo("En Progreso")==0){
+                        totalTareasEnProgreso++;
+                    }
+                    if(t.getIdEstado().getDescripcion().compareTo("Finalizado")==0){
+                        totalTareasFinalizadas++;
+                    }
+                    if(t.getIdEstado().getDescripcion().compareTo("Cancelada")==0){
+                        totalTareasCanceladas++;
+                    }
+                    totalTareasTotales++;
+            }
+        }
+
+        //dibujar
+        donutModel2 = new DonutChartModel();
+        ChartData data = new ChartData();
+        
+        DonutChartDataSet dataSet = new DonutChartDataSet();
+        List<Number> values = new ArrayList<>();
+        values.add(totalTareasNoIniciadas);
+        values.add(totalTareasEnProgreso);
+        values.add(totalTareasFinalizadas);
+        values.add(totalTareasCanceladas);
+        dataSet.setData(values);
+
+        List<String> bgColors = new ArrayList<>();
+        bgColors.add("rgb(255, 205, 86)"); //amarillo
+        bgColors.add("rgb(54, 162, 235)"); //auzl
+        bgColors.add("rgb(132, 255, 99)"); //verde
+        bgColors.add("rgb(255, 99, 132)"); //rojo
+        dataSet.setBackgroundColor(bgColors);
+
+        data.addChartDataSet(dataSet);
+        List<String> labels = new ArrayList<>();
+        labels.add("No iniciadas");
+        labels.add("En Progreso");
+        labels.add("Finalizadas");
+        labels.add("Canceladas");
+        data.setLabels(labels);
+
+        donutModel2.setData(data);
+    } 
+    
+      public boolean editarIncidente() {
+        Usuario u = loginBean.getUsuarioLogueado();
+
+        if (u != null) {
+            if (u.getIdRol().getDescripcion().equals(pM)
+                    || u.getIdRol().getDescripcion().equals(admin)) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+      
+    public boolean agregarIncidente(){
+         Usuario u =  loginBean.getUsuarioLogueado();
+        
+        if (u != null){
+           if( u.getIdRol().getDescripcion().equals(pM)
+             || u.getIdRol().getDescripcion().equals(admin)){
+               
+               return true;
+           }            
+        }
+        return false;      
+    }
 }

@@ -9,7 +9,7 @@
     <h:body>
         <ui:composition template="/WEB-INF/template.xhtml"  >
             <ui:define name="tituloPagina">
-                Administración de proyectos
+                Monitoreo y Control de Proyectos
             </ui:define>    
             <ui:define name="content">
                 <h:form id="fromProyectos" styleClass="products-table">
@@ -73,27 +73,33 @@
                             <center>                                      
                                 <div class="estado-#{pro.idEstado.descripcion}">#{pro.idEstado.descripcion}</div>
                             </center>
-                        </p:column>                   
+                        </p:column>  
+                        
+                        
                         <p:column headerText="Acción">
                             <center>
-                                <p:commandButton icon="fa fa-pencil Fs100 Red" title="Editar" oncomplete="PF('wbProyectos').show()"
-                                                 rendered="#{proyectoBean.editarProyecto()}"  update="formDlgProyectos" action="#{proyectoBean.antesActualizar}">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
-                                    <f:setPropertyActionListener value="#{true}" target="#{proyectoBean.editando}" />
+                                
+                                
+                                <p:commandButton update="formDlgGraficoProyectos" oncomplete="PF('graficoDialog').show()" action="#{proyectoBean.actualizarGrafico}"
+                                                 icon="pi pi-chart-bar" title="View">
+                                    <f:setPropertyActionListener value="#{pro}"
+                                                                 target="#{proyectoBean.proyectoSeleccionado}"/>
                                 </p:commandButton>
-
-                                <p:commandButton icon="fa fa-minus-circle Fs100 Red" title="Eliminar" 
-                                                 rendered="#{proyectoBean.editarProyecto()}" action="#{proyectoBean.eliminar}" update="fromProyectos:dtProyectos formGrowl:growl">
-                                    <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
-                                    <p:confirm header="Confirmación" message="Estas seguro?" icon="pi pi-exclamation-triangle" />
+                                <p:commandButton update="formDlgGraficoProyectos2" oncomplete="PF('graficoDialog2').show()" action="#{proyectoBean.actualizarGrafico2}"
+                                                 icon="pi pi-spinner" title="View">
+                                    <f:setPropertyActionListener value="#{pro}"
+                                                                 target="#{proyectoBean.proyectoSeleccionado}"/>
                                 </p:commandButton>
+                   
+                                
                             </center>
                         </p:column>
 
                     </p:dataTable> 
-
+                                      
+                        
                     <div class="float-sm-right" style="padding-top: 10px;">
-                        <p:commandButton value="Agregar Proyecto" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
+                        <p:commandButton value="Correciones" rendered="#{proyectoBean.agregarProyecto()}" ajax="true" icon="fa fa-plus-circle"  
                                          oncomplete="PF('wbProyectos').show();"
                                          actionListener="#{proyectoBean.agregar()}"
                                          update="formDlgProyectos">
@@ -108,10 +114,9 @@
                 </h:form>
 
                 <p:dialog id="dlgProyectos" widgetVar="wbProyectos" closeOnEscape="true" closable="true" header="Proyecto"
-                          width="950" height="500" showEffect="fade" modal="true" responsive="true">          
+                          width="950" height="500" showEffect="fade" modal="true" responsive="true"> 
                     <h:form id="formDlgProyectos">
-                                                                
-                        <div class="bd-example">   
+                        <div class="bd-example">
                             <div class="form-group row">
                                 <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-10"> 
@@ -188,15 +193,6 @@
                                 </div>
                             </div>
 
-                            <div align="right">
-                                <div class="col-sm-10">
-                                    <p:commandButton icon="pi pi-question" title="Ayuda" oncomplete="PF('wbAyuda').show()"
-                                                     update="formDlgAyuda" action="#{proyectoBean.antesActualizar}">
-                                        <f:setPropertyActionListener value="#{pro}" target="#{proyectoBean.proyectoSeleccionado}" />
-                                        <f:setPropertyActionListener value="#{true}" target="#{proyectoBean.editando}" />
-                                    </p:commandButton>
-                                </div>
-                            </div>
                         </div>
 
                         <center>
@@ -218,49 +214,28 @@
                                               onclick="PF('wbProyectos').hide()"></p:commandButton>
 
                         </center>
-                 
                     </h:form>
                 </p:dialog>  
-                <p:dialog id="dlgAyuda" widgetVar="wbAyuda" closeOnEscape="true" closable="true" header="Ayuda"
-                          width="450" height="400" showEffect="fade" modal="true" responsive="true">  
-                    <h:form id="formDlgAyuda">
-
-                        <div class="bd-example">
-                            <div class="form-group row">
-                                <label for="info" class="col-sm-10" style="alignment-adjust: central">Se deben ingresar los datos del Proyecto que se desea
-                                crear.
-                               </label>        
-                               <label for="info" class="col-sm-10" style="alignment-adjust: central">                           
-                                El Nombre que va a llevar el proyecto.
-                                </label>
-                                 <label for="info" class="col-sm-10" style="alignment-adjust: central">                           
-                                La descripción breve de que se va a tratar el proyecto.
-                                </label>
-                                <label for="info" class="col-sm-10" style="alignment-adjust: central">                           
-                                Fecha de inicio real del proyecto.
-                                Fecha de inicio estimada del proyecto.
-                                Fecha fin estimada del proyecto.
-                                </label>
-                                <label for="info" class="col-sm-10" style="alignment-adjust: central">                           
-                                El segmento del cliente a quienes va a ir enfocado el proyecto.                             
-                                </label>
-                                <label for="info" class="col-sm-10" style="alignment-adjust: central">                           
-                                El responsable del proyecto, que debe de tener el rol de Project Manager.                            
-                                </label>
-                                <label for="info" class="col-sm-10" style="alignment-adjust: central">                           
-                                El estado que va a tener el proyecto.                            
-                                </label>                           
-                            </div>                        
-                        </div> 
-                        <center>
-                          <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
-                                              onclick="PF('wbAyuda').hide()"></p:commandButton>
-                        </center>
-                        
-                    </h:form> 
-                </p:dialog> 
+                
+                <p:dialog header="Estado de avance de Iniciativa (Horas)" widgetVar="graficoDialog" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoProyectos">    
+                        <div class="card">
+                            <p:donutChart model="#{proyectoBean.donutModel}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
+                
+                <p:dialog header="Estado de avance de Iniciativa (Tareas)" widgetVar="graficoDialog2" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <h:form id="formDlgGraficoProyectos2">    
+                        <div class="card">
+                            <p:donutChart model="#{proyectoBean.donutModel2}" style="width: 100%; height: 250px;"/>
+                        </div>    
+                    </h:form>
+                </p:dialog>
             </ui:define>    
 
         </ui:composition>    
     </h:body>
-</html>
+</html>                    
