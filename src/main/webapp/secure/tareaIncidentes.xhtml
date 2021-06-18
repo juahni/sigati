@@ -224,7 +224,15 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>  
-  
+                            <div align="right">
+                                <div class="col-sm-10">
+                                    <p:commandButton icon="pi pi-question" title="Ayuda" oncomplete="PF('wbAyuda').show()"
+                                                     update="formDlgAyuda" action="#{tareaBean.antesActualizar}">
+                                        <f:setPropertyActionListener value="#{pro}" target="#{tareaBean.tareaSeleccionado}" />
+                                        <f:setPropertyActionListener value="#{true}" target="#{tareaBean.editando}" />
+                                    </p:commandButton>
+                                </div>
+                            </div>  
                         </div>
 
                         <center>
@@ -247,7 +255,59 @@
 
                         </center>
                     </h:form>
-                </p:dialog>  
+                </p:dialog> 
+                
+                <p:dialog id="dlgAyuda" widgetVar="wbAyuda" closeOnEscape="true" closable="true" header="Ayuda"
+                          width="450" height="400" showEffect="fade" modal="true" responsive="true">  
+                     <h:form id="formDlgAyuda">
+
+                        <div class="bd-example">
+                            <div class="form-group row">
+                                <H5>
+                                <label class="col-sm-10" style="alignment-adjust: central"> <strong> La tarea es una actividad relacionada a un Incidente.</strong>
+                                </label>  
+                                </H5>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    Los datos que debe llevar la tarea son:
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    El <strong>Nombre</strong> que va a llevar la tarea planificada.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    La <strong>Descripción</strong> breve de que se va a tratar la tarea planificada.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                <strong>Fecha de inicio real</strong> de la tarea planificada.
+                                <strong>Fecha de inicio estimada</strong> de la tarea planificada.
+                                    <strong>Fecha fin estimada</strong> de la tarea planificada.
+                                </label>
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 Las <strong>Horas Estimadas</strong> es el tiempo estimado para realizar la tarea.
+                                </label>
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 Las <strong>Ambiente</strong> es la plataforma en la que el responsable debe de realizar la tarea.
+                                </label>
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 La <strong>Complejidad</strong> define el nivel de dificultad del desarrollo de la tarea.                          
+                                </label>
+                                  <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 La <strong>Prioridad</strong> ventaja o preferencia en la lista de tareas.                            
+                                </label> 
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 El <strong>Estado</strong> la situación en la que está la tarea.                            
+                                </label>                         
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 El <strong>Responsable</strong> es la persona encargada de realizar la tarea.                            
+                                </label> 
+                            </div>                        
+                        </div> 
+                        <center>
+                          <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbAyuda').hide()"></p:commandButton>
+                        </center>
+                        
+                    </h:form> 
+                </p:dialog> 
             </ui:define>    
 
         </ui:composition>    

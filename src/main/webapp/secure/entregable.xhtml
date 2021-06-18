@@ -228,6 +228,15 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
+                            <div align="right">
+                                <div class="col-sm-10">
+                                    <p:commandButton icon="pi pi-question" title="Ayuda" oncomplete="PF('wbAyuda').show()"
+                                                     update="formDlgAyuda" action="#{entregableBean.antesActualizar}">
+                                        <f:setPropertyActionListener value="#{pro}" target="#{entregableBean.entregableSeleccionado}" />
+                                        <f:setPropertyActionListener value="#{true}" target="#{entregableBean.editando}" />
+                                    </p:commandButton>
+                                </div>
+                            </div>
                         </div>
 
                         <center>
@@ -250,7 +259,53 @@
 
                         </center>
                     </h:form>
-                </p:dialog>  
+                   </p:dialog>                 
+                   <p:dialog id="dlgAyuda" widgetVar="wbAyuda" closeOnEscape="true" closable="true" header="Ayuda"
+                          width="450" height="400" showEffect="fade" modal="true" responsive="true">  
+                     <h:form id="formDlgAyuda">
+
+                        <div class="bd-example">
+                            <div class="form-group row">
+                                <H5>
+                                <label class="col-sm-10" style="alignment-adjust: central"> <strong> El entregable corresponde a una versión del 
+                                        Proyecto que agrega valor a la iniciativa.</strong>
+                                </label>  
+                                </H5>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    Los datos que debe llevar el entregable son:
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    El <strong>Nombre</strong> que va a llevar el entregable.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    La <strong>Descripción</strong> breve de que se va a tratar el entregable.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                <strong>Fecha de inicio real</strong> del entregable.
+                                <strong>Fecha de inicio estimada</strong> del entregable.
+                                    <strong>Fecha fin estimada</strong> del entregable.
+                                </label>
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 La <strong>Complejidad</strong> define el nivel de dificultad del desarrollo del entregable.                          
+                                </label>
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 El <strong>Estado</strong> la situación en la que está el entregable.                            
+                                </label>   
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 La <strong>Prioridad</strong> ventaja o preferencia en la lista de entregables.                            
+                                </label> 
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 El <strong>Servicio</strong> que sería el tipo de iniciativa del negocio (Home, Digital, Mobile).                            
+                                </label> 
+                            </div>                        
+                        </div> 
+                        <center>
+                          <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbAyuda').hide()"></p:commandButton>
+                        </center>
+                        
+                    </h:form> 
+                </p:dialog> 
             </ui:define>    
 
         </ui:composition>    

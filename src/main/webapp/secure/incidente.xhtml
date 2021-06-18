@@ -29,18 +29,7 @@
                         <p:column headerText="Nombre" filterBy="#{inc.nombre}" filterMatchMode="contains">
                             <p:outputLabel value="#{inc.nombre}" />
                         </p:column>
-
-                        <!-- <p:column headerText="Descripción">                           
-                            <p:outputLabel value="#{inc.descripcion}" />
-                        </p:column>
-                        <p:column headerText="Fecha Inicio">
-                            <center>
-                                <p:outputLabel value="#{inc.fechaInicio}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </p:outputLabel>
-                            </center>
-                        </p:column>-->
-
+                 
                         <p:column headerText="Fec. Ini Estimada" sortBy="#{inc.fechaInicioEstimado}">
                             <center>
                                 <p:outputLabel value="#{inc.fechaInicioEstimado}" >
@@ -107,7 +96,7 @@
                 </h:form>
 
                 <p:dialog id="dlgIncidentes" widgetVar="wbIncidentes" closeOnEscape="true" closable="true" header="Incidente"
-                          width="950" height="650" modal="true"> 
+                          width="990" height="650" modal="true"> 
                     <h:form id="formDlgIncidentes">
                         <div class="bd-example">
                             <div class="form-group row">
@@ -209,6 +198,15 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div> 
+                            <div align="right">
+                                <div class="col-sm-10">
+                                    <p:commandButton icon="pi pi-question" title="Ayuda" oncomplete="PF('wbAyuda').show()"
+                                                     update="formDlgAyuda" action="#{incidenteBean.antesActualizar}">
+                                        <f:setPropertyActionListener value="#{pro}" target="#{incidenteBean.incidenteSeleccionado}" />
+                                        <f:setPropertyActionListener value="#{true}" target="#{incidenteBean.editando}" />
+                                    </p:commandButton>
+                                </div>
+                            </div>
                         </div>
 
                         <center>
@@ -231,7 +229,57 @@
 
                         </center>
                     </h:form>
-                </p:dialog>  
+                </p:dialog>                 
+               <p:dialog id="dlgAyuda" widgetVar="wbAyuda" closeOnEscape="true" closable="true" header="Ayuda"
+                          width="450" height="400" showEffect="fade" modal="true" responsive="true">  
+                    <h:form id="formDlgAyuda">
+
+                        <div class="bd-example">
+                            <div class="form-group row">
+                                <H5>
+                                <label class="col-sm-10" style="alignment-adjust: central"> <strong> El incidente es cuando resulta como consecuencia de un problema en el ambiente 
+                                        productivo</strong>
+                                </label>  
+                                </H5>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    Los datos que debe llevar el incidente son:
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    El <strong>Nombre</strong> que va a llevar el incidente.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    La <strong>Descripción</strong> breve de que se va a tratar el incidente.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                <strong>Fecha de inicio real</strong> del incidente.
+                                <strong>Fecha de inicio estimada</strong> del incidente.
+                                    <strong>Fecha fin estimada</strong> del incidente.
+                                </label>
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                El <strong>Segmento</strong> del cliente a quienes va enfocado el incidente.                             
+                                </label>
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                    El <strong>Estado</strong> la situación en la que está el incidente.                            
+                                </label>   
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                    El <strong>Servicio</strong> que sería el tipo de iniciativa del negocio (Home, Digital, Mobile).                            
+                                </label> 
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                    La <strong>Prioridad</strong> ventaja o preferencia en la lista de incidentes.                            
+                                </label> 
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                    El <strong>Reportador</strong> es la persona que comunica el incidente, que debe de ser un usuario con el rol de Soporte.                            
+                                </label>
+                                                       
+                            </div>                        
+                        </div> 
+                        <center>
+                          <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbAyuda').hide()"></p:commandButton>
+                        </center>
+                        
+                    </h:form> 
+                </p:dialog> 
             </ui:define>    
 
         </ui:composition>    

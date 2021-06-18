@@ -154,19 +154,16 @@
                                         <f:selectItems value="#{tareasDiariasBean.listaEstadosPorTarea}" var="estado" itemLabel="#{estado.descripcion}" itemValue="#{estado}" />
                                     </p:selectOneMenu>
                                 </div>
-                            </div>
-                            
-                            <!-- <div class="form-group row">
-                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                            </div>                          
+                            <div align="right">
                                 <div class="col-sm-10">
-                                    <p:selectOneMenu id="option" value="#{tareasDiariasBean.estado}">
-                                        <f:selectItem itemLabel="Selecionar" itemValue=""/>
-                                        <f:selectItem itemLabel="En Progreso" itemValue="En Progreso"/>
-                                        <f:selectItem itemLabel="Finalizado" itemValue="Finalizado"/>                                                                   
-                                    </p:selectOneMenu>
+                                    <p:commandButton icon="pi pi-question" title="Ayuda" oncomplete="PF('wbAyuda').show()"
+                                                     update="formDlgAyuda" action="#{tareasDiariasBean.antesActualizar}">
+                                        <f:setPropertyActionListener value="#{pro}" target="#{tareasDiariasBean.tareaSeleccionado}" />
+                                        <f:setPropertyActionListener value="#{true}" target="#{tareasDiariasBean.editando}" />
+                                    </p:commandButton>
                                 </div>
-                            </div> -->
-                                                                                                        
+                            </div>                                                                                                          
                         </div>
 
                         <center>
@@ -190,9 +187,46 @@
                         </center>
                     </h:form>
                 </p:dialog>
-                
-            </ui:define>    
+                  <p:dialog id="dlgAyuda" widgetVar="wbAyuda" closeOnEscape="true" closable="true" header="Ayuda"
+                          width="450" height="400" showEffect="fade" modal="true" responsive="true">  
+                     <h:form id="formDlgAyuda">
 
+                        <div class="bd-example">
+                            <div class="form-group row">
+                                <H5>
+                                <label class="col-sm-10" style="alignment-adjust: central"> <strong> La tarea es una actividad relacionada a un Incidente. Esta pantalla corresponde
+                                    a la carga de la fecha y del tiempo que llevó realizar la tarea.</strong>
+                                </label>  
+                                </H5>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                    Los datos que debe llevar la tarea son:
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                <strong>Tarea</strong> es la tarea planificada que se debe seleccionar para cargar las horas 
+                                    correspondientes de trabajo que llevó.  
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                Las <strong>Horas</strong> el tiempo en hs. que llevó hacer la tarea.
+                                </label>
+                                <label class="col-sm-10" style="alignment-adjust: central">                           
+                                La <strong>Fecha</strong> de carga correspondiente a la tarea seleccionada.                           
+                                </label>                               
+                                 <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 La <strong>Descripción</strong> del trabajo realizado en la tarea.
+                                </label>                               
+                                <label  class="col-sm-10" style="alignment-adjust: central">                           
+                                 El <strong>Estado</strong> es la situación en la que está la tarea.                            
+                                </label>                                                       
+                            </div>                        
+                        </div> 
+                        <center>
+                          <p:commandButton  styleClass="ui-priority-secondary" value="Salir" style="width: 80px;"
+                                              onclick="PF('wbAyuda').hide()"></p:commandButton>
+                        </center>
+                        
+                    </h:form> 
+                </p:dialog> 
+            </ui:define>    
         </ui:composition>    
     </h:body>
 </html>
